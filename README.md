@@ -1,15 +1,13 @@
 
-@mitchallen/aframe-maze-component
+aframe-maze-component
 ==
-PUT DESCRIPTION HERE
+aframe maze component
 --
 * * *
-## Installation
-
-You must use __npm__ __2.7.0__ or higher because of the scoped package name.
+## NPM Installation
 
     $ npm init
-    $ npm install @mitchallen/aframe-maze-component --save
+    $ npm install aframe-maze-component --save
   
 * * *
 
