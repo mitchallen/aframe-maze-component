@@ -5,9 +5,15 @@
     return;
   }
 
+  var maze = require('./modules/index');
+
   // Register all components here.
   var components = {
-    "maze": require('./modules/index').component
+    "maze": maze.Component
+  };
+
+  var primitives = {
+    "a-maze": maze.Primitive
   };
 
   Object.keys(components).forEach(function (name) {
@@ -17,4 +23,13 @@
       AFRAME.registerComponent(name, components[name]);
     }
   });
+
+  Object.keys(primitives).forEach(function (name) {
+    if (AFRAME.aframeCore) {
+      AFRAME.aframeCore.registerPrimitive(name, primitives[name]);
+    } else {
+      AFRAME.registerPrimitive(name, primitives[name]);
+    }
+  });
+
 })();

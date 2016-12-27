@@ -8,9 +8,15 @@
     return;
   }
 
+  var maze = _dereq_('./modules/index');
+
   // Register all components here.
   var components = {
-    "maze": _dereq_('./modules/index').component
+    "maze": maze.Component
+  };
+
+  var primitives = {
+    "a-maze": maze.Primitive
   };
 
   Object.keys(components).forEach(function (name) {
@@ -18,6 +24,14 @@
       AFRAME.aframeCore.registerComponent(name, components[name]);
     } else {
       AFRAME.registerComponent(name, components[name]);
+    }
+  });
+
+  Object.keys(primitives).forEach(function (name) {
+    if (AFRAME.aframeCore) {
+      AFRAME.aframeCore.registerPrimitive(name, primitives[name]);
+    } else {
+      AFRAME.registerPrimitive(name, primitives[name]);
     }
   });
 })();
@@ -40,13 +54,26 @@ var mazeFactory = _dereq_('@mitchallen/maze-generator-square');
 
 var maze = null;
 
-module.exports.component = {
+module.exports.Primitive = {
+    defaultComponents: {
+        maze: {}
+    },
+    mappings: {
+        position: 'maze.position',
+        enabled: 'maze.enabled',
+        size: 'maze.size',
+        entrance: 'maze.entrance'
+    }
+};
+
+module.exports.Component = {
 
     dependencies: ['position', 'rotation'],
 
     schema: {
         enabled: { default: true },
-        size: { default: "5, 6" }
+        size: { default: "5, 6" },
+        entrance: { default: true }
     },
 
     /**
@@ -90,7 +117,7 @@ module.exports.component = {
                 return true;
             };
 
-            var size = this.data.size.split(','),
+            var size = this.data.size.split(' '),
                 xSize = parseInt(size[0], 10) || 3,
                 ySize = parseInt(size[1], 10) || 3;
             maze = mazeFactory.create({ x: xSize, y: ySize });
@@ -135,7 +162,7 @@ module.exports.component = {
                         position: position,
                         parent: this.el,
                         width: WALL_DEPTH + 0.1,
-                        height: 2.0,
+                        height: 2.1,
                         depth: WALL_DEPTH + 0.1
                     })) {
                         return;
@@ -154,7 +181,7 @@ module.exports.component = {
                             return;
                         }
                     }
-                    if (!(y === ySize - 1 && x === xSize - 1)) {
+                    if (!(this.data.entrance && y === ySize - 1 && x === xSize - 1)) {
                         // If not last cell (entrance)
                         if (!maze.connects(x, y, "S")) {
                             // draw south wall

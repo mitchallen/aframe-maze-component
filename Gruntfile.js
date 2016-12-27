@@ -23,6 +23,9 @@ module.exports = function (grunt) {
 
             pubinit: {
                 command: 'npm publish --access public'
+            },
+            macserver: {
+                command: 'python -m SimpleHTTPServer 8000'
             }
         },
 
@@ -69,7 +72,7 @@ module.exports = function (grunt) {
 
         watch: {
              scripts: {
-                files: ["./modules/*.js","*.html"],
+                files: ["./modules/*.js","./*.js"],
                 tasks: ["browserify",'uglify']
              }
         }
@@ -82,6 +85,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['jshint','browserify','uglify']);
     grunt.registerTask('monitor', ['jshint','watch']);
     grunt.registerTask("build", ['browserify','uglify']);
+    grunt.registerTask('macserver', ['shell:macserver']);
     grunt.registerTask('pubinit', ['jshint','browserify','uglify','shell:pubinit']);
     grunt.registerTask('publish', ['jshint','browserify','uglify','bump','shell:publish']);
 };

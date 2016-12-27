@@ -15,13 +15,26 @@ var mazeFactory = require('@mitchallen/maze-generator-square');
 
 var maze = null;
 
-module.exports.component = {
+module.exports.Primitive = {
+    defaultComponents: {
+        maze: {},
+    },
+    mappings: {
+        position: 'maze.position',
+        enabled: 'maze.enabled',
+        size: 'maze.size',
+        entrance: 'maze.entrance',
+    }
+};
+
+module.exports.Component = {
     
     dependencies: ['position', 'rotation'],
 
     schema: {
         enabled: { default: true },
         size: { default: "5, 6" },
+        entrance: { default: true },
     },
 
     /**
@@ -35,7 +48,7 @@ module.exports.component = {
         console.log("DATA: \n", this.data);
         if (!this.data.enabled) { return; }
                 if( this.data.size ) {
-            var size = this.data.size.split(','),
+            var size = this.data.size.split(' '),
                 xSize = parseInt(size[0],10) || 3,
                 ySize = parseInt(size[1],10) || 3
             maze = mazeFactory.create( { x: xSize, y: ySize } );
@@ -86,7 +99,7 @@ module.exports.component = {
                         zPos = (y-ySize)*WALL_WIDTH,
                         position = xPos + ' ' + yPos + ' ' + zPos;
             
-                    if(x === 0 && y === 0) {
+                    if( x === 0 && y === 0) {
                         // draw cell center
                         height = 16.0;
                         yPos = height / 2.0;
@@ -109,7 +122,7 @@ module.exports.component = {
                         position: position,
                         parent: this.el,
                         width: WALL_DEPTH + 0.1,
-                        height: 2.0,
+                        height: 2.1,
                         depth: WALL_DEPTH + 0.1
                     })) {
                         return;
@@ -128,7 +141,7 @@ module.exports.component = {
                             return;
                         }
                     }
-                    if(!(y === ySize - 1 && x === xSize - 1)) {
+                    if(!(this.data.entrance && y === ySize - 1 && x === xSize - 1)) {
                         // If not last cell (entrance)
                         if(!maze.connects( x, y, "S" )) {
                             // draw south wall
