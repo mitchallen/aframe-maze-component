@@ -15,18 +15,6 @@ var mazeFactory = require('@mitchallen/maze-generator-square');
 
 var maze = null;
 
-module.exports.Primitive = {
-    defaultComponents: {
-        maze: {},
-    },
-    mappings: {
-        position: 'maze.position',
-        enabled: 'maze.enabled',
-        size: 'maze.size',
-        entrance: 'maze.entrance',
-    }
-};
-
 module.exports.Component = {
     
     dependencies: ['position', 'rotation'],

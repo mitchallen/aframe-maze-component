@@ -13,7 +13,6 @@
   };
 
   var primitives = {
-    "a-maze": maze.Primitive
   };
 
   Object.keys(components).forEach(function (name) {

@@ -15,9 +15,7 @@
     "maze": maze.Component
   };
 
-  var primitives = {
-    "a-maze": maze.Primitive
-  };
+  var primitives = {};
 
   Object.keys(components).forEach(function (name) {
     if (AFRAME.aframeCore) {
@@ -53,18 +51,6 @@
 var mazeFactory = _dereq_('@mitchallen/maze-generator-square');
 
 var maze = null;
-
-module.exports.Primitive = {
-    defaultComponents: {
-        maze: {}
-    },
-    mappings: {
-        position: 'maze.position',
-        enabled: 'maze.enabled',
-        size: 'maze.size',
-        entrance: 'maze.entrance'
-    }
-};
 
 module.exports.Component = {
 
