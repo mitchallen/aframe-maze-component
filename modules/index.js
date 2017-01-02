@@ -57,7 +57,8 @@ module.exports.Component = {
                     width = spec.width || WALL_WIDTH,
                     depth = spec.depth || WALL_DEPTH,
                     height = spec.height || WALL_HEIGHT,
-                    texture = spec.texture || '#texture-wall';
+                    color = spec.color || '#fff',
+                    texture = spec.texture || '#texture-wall'; 
 
                 if(!position || !parent) {
                     console.error("drawMazeWall requires position and parent");
@@ -66,8 +67,8 @@ module.exports.Component = {
 
                 var wall = document.createElement('a-box');
                 parent.appendChild(wall);
-                wall.setAttribute('color', '#fff');
-                wall.setAttribute('material', 'src: ' + texture + ';');
+                wall.setAttribute('color', color);
+                wall.setAttribute('material', { src: texture } );
                 wall.setAttribute('width', width);
                 wall.setAttribute('height', height);
                 wall.setAttribute('depth', depth);
