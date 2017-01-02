@@ -84,15 +84,18 @@ module.exports.Component = {
                     var height = 1.0,
                         xPos = (x-xSize)*WALL_WIDTH,
                         yPos = height / 2.0,
-                        zPos = (y-ySize)*WALL_WIDTH,
-                        position = xPos + ' ' + yPos + ' ' + zPos;
+                        zPos = (y-ySize)*WALL_WIDTH;
             
                     if( x === 0 && y === 0) {
                         // draw cell center
                         height = 16.0;
                         yPos = height / 2.0;
                         if(!drawMazeWall({
-                            position: position,
+                            position: { 
+                                x: xPos,
+                                y: yPos,
+                                z: zPos
+                            },
                             parent: this.el,
                             width: 0.5,
                             height: height,
@@ -105,9 +108,12 @@ module.exports.Component = {
                     // draw end cap
                     height = 2.0;
                     yPos = height / 2.0;
-                    position = (xPos+CELL_SIZE/2.0) + ' ' + yPos + ' ' + (zPos+CELL_SIZE/2.0);
-                    if(!drawMazeWall({
-                        position: position,
+                      if(!drawMazeWall({
+                        position: {
+                            x: xPos + CELL_SIZE / 2.0,
+                            y: yPos,
+                            z: zPos + CELL_SIZE / 2.0
+                        },
                         parent: this.el,
                         width: WALL_DEPTH + 0.1,
                         height: 2.1,
@@ -119,10 +125,12 @@ module.exports.Component = {
                     if(y === 0) {
                         // draw north wall
                         height = 1.0;
-                        yPos = height / 2.0;
-                        position = xPos + ' ' + yPos + ' ' + (zPos - CELL_SIZE / 2);
                         if(!drawMazeWall({
-                            position: position,
+                            position: {
+                                x: xPos,
+                                y: height / 2.0,
+                                z: zPos - CELL_SIZE / 2
+                            },
                             parent: this.el,
                             height: height
                         })) {
@@ -134,10 +142,12 @@ module.exports.Component = {
                         if(!maze.connects( x, y, "S" )) {
                             // draw south wall
                             height = 1.0;
-                            yPos = height / 2.0;
-                            position = xPos + ' ' + yPos + ' ' + (zPos + CELL_SIZE / 2);
                             if(!drawMazeWall({
-                                position: position,
+                                position: {
+                                    x: xPos,
+                                    y: height / 2.0,
+                                    z: zPos + CELL_SIZE / 2
+                                },
                                 parent: this.el,
                                 height: height
                             })) {
@@ -149,10 +159,12 @@ module.exports.Component = {
                     if(x === 0) {
                         // draw west wall
                         height = 0.75;
-                        yPos = height / 2.0;
-                        position = (xPos - CELL_SIZE / 2) + ' ' + yPos + ' ' + zPos;
                         if(!drawMazeWall({
-                            position: position,
+                            position: {
+                                x: xPos - CELL_SIZE / 2,
+                                y: height / 2.0,
+                                z: zPos
+                            },
                             parent: this.el,
                             height: height,
                             width: WALL_DEPTH,
@@ -164,10 +176,12 @@ module.exports.Component = {
                     if(!maze.connects( x, y, "E" )) {
                         // draw east wall
                         height = 0.75;
-                        yPos = height / 2.0;
-                        position = (xPos + CELL_SIZE / 2) + ' ' + yPos + ' ' + zPos;
                         if(!drawMazeWall({
-                            position: position,
+                            position: {
+                                x: xPos + CELL_SIZE / 2,
+                                y: yPos = height / 2.0,
+                                z: zPos
+                            },
                             parent: this.el,
                             height: height,
                             width: WALL_DEPTH,

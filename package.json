@@ -9,7 +9,8 @@
     "test": "mocha --recursive --timeout 20000",
     "test-nodemon": "nodemon /usr/local/bin/mocha --timeout 5000",
     "test-debug": "nodemon /usr/local/bin/mocha -g '@DEBUG' --recursive --timeout 20000",
-    "test-jenkins": "mocha --recursive --timeout 20000 -R xunit test/ > test-reports.xml"
+    "test-jenkins": "mocha --recursive --timeout 20000 -R xunit test/ > test-reports.xml",
+    "mac-server": "python -m SimpleHTTPServer 8000"
   },
   "repository": {
     "type": "git",
