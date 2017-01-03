@@ -58,7 +58,10 @@ module.exports.Component = {
 
     schema: {
         enabled: { default: true },
-        size: { default: "5, 6" },
+        size: {
+            type: 'vec2',
+            default: "5, 6"
+        },
         entrance: { default: true },
         wall: { default: "" },
         cap: { default: "" }
@@ -92,6 +95,8 @@ module.exports.Component = {
             cap = spec.cap || false,
             wallId = cap ? this.data.cap : this.data.wall;
 
+        wallId = wallId[0] == '#' ? wallId.substring(1) : wallId;
+
         if (!position || !parent) {
             console.error("drawMazeWall requires position and parent");
             return false;
@@ -123,14 +128,12 @@ module.exports.Component = {
             return;
         }
         if (this.data.size) {
-            var size = this.data.size.split(' '),
-                xSize = parseInt(size[0], 10) || 3,
-                ySize = parseInt(size[1], 10) || 3;
+            var xSize = this.data.size.x,
+                ySize = this.data.size.y;
             maze = mazeFactory.create({ x: xSize, y: ySize });
             maze.generate();
             maze.printBoard();
-            console.log("MAZE: \n", maze);
-
+            ;
             var WALL_WIDTH = this.wallWidth,
                 WALL_DEPTH = this.wallDepth,
                 WALL_HEIGHT = this.wallHeight,
