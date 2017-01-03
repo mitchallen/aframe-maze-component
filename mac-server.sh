@@ -4,4 +4,4 @@
 
 # chmod +x (this script)
 
-python -m SimpleHTTPServer 8003
+python -m SimpleHTTPServer 8008

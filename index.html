@@ -20,6 +20,12 @@
       <a-assets>
         <img id="texture-floor" src="img/floor-texture-1.jpg">
         <img id="texture-wall" src="img/arrow-left.png">
+        <a-box id="wall-one" 
+          static-body material="src: #texture-wall" 
+          depth="1" width="4" height="1"></a-box>
+        <a-box id="end-cap"
+          static-body material="src: #texture-floor" 
+          depth="1.1" width="1.1" height="2"></a-box>
       </a-assets>
       <a-sky id="sky" color="#0000ff"></a-sky>
       <!--  Camera -->
@@ -28,6 +34,7 @@
         <a-cursor color="#4CC3D9" fuse="false" timeout="10"></a-cursor>
       </a-camera>
       -->
+
       <!-- normal player position = 0 1.8 0 -->
       <a-entity id="player"
           camera
@@ -40,7 +47,7 @@
           depth="0.25" height="0.5" width="0.5" 
           rotation="0 45 0" color="#4CC3D9"></a-box>
 
-      <a-entity id="maze1" maze='size: 5 6; wall: 5 1 1;' position='0 0 0'></a-entity>
+      <a-entity id="maze1" maze='size: 5 6; wall: wall-one; cap: end-cap;' position='0 0 0'></a-entity>
       <!--
       <a-entity id="maze2" maze='size: 5 6; entrance: false;' position='0 4.0 0'></a-entity>
       <a-entity id="maze3" maze='size: 5 6; entrance: false;' position='0 8.0 0'></a-entity>
