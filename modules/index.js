@@ -39,9 +39,17 @@ module.exports.Component = {
         console.log("INIT DATA: \n", this.data);
         console.log("THIS.EL: \n", this.el); 
         var p = document.getElementById(this.data.wall);
-        this.wallWidth = p.getAttribute("width");
-        this.wallDepth = p.getAttribute("depth");
-        this.wallHeight = p.getAttribute("height");
+        if(p) {
+            this.wallWidth = p.getAttribute("width");
+            this.wallDepth = p.getAttribute("depth");
+            this.wallHeight = p.getAttribute("height");
+        } else {
+            this.wallWidth = 4;
+            this.wallDepth = 1;
+            this.wallHeight = 1;
+        }
+        var c = document.getElementById(this.data.cap);
+        this.capHeight = c ? c.getAttribute('height') : 1;
     },
 
     drawMazeWall: function(spec) {
@@ -49,19 +57,28 @@ module.exports.Component = {
         spec = spec || {};
         var position = spec.position,
             rotation = spec.rotation || { x: 0, y: 0, z: 0 },
-            wallId = spec.wall || this.data.wall;
-
-        console.log("DRAW DATA:", this.data);
+            cap = spec.cap || false,
+            wallId = cap ? this.data.cap : this.data.wall;
 
         if(!position || !parent) {
             console.error("drawMazeWall requires position and parent");
             return false;
         }
 
-        // var wall = document.createElement('a-box');
+        var w = null;
         var p = document.getElementById(wallId);
-        var w = p.cloneNode(true);
-        this.el.appendChild(w);
+        if(!p) {
+           w = document.createElement('a-box'); 
+           this.el.appendChild(w);
+           w.setAttribute('color', 'tomato' );
+           w.setAttribute('width',  cap ? 1 : this.wallWidth );
+           w.setAttribute('depth',  cap ? this.capHeight : this.wallDepth );
+           w.setAttribute('height', cap ? 1 : this.wallHeight );
+           w.setAttribute('static-body', '');
+        } else {
+           w = p.cloneNode(true);
+           this.el.appendChild(w);
+        }
         w.setAttribute('rotation', rotation);
         w.setAttribute('position', position);
 
@@ -83,39 +100,36 @@ module.exports.Component = {
             var WALL_WIDTH = this.wallWidth,
                 WALL_DEPTH = this.wallDepth,
                 WALL_HEIGHT = this.wallHeight,
-                CELL_SIZE = this.wallWidth;
+                CELL_SIZE = WALL_WIDTH,
+                yPos = WALL_HEIGHT / 2.0;
 
             for(var y = -1; y < ySize; y++) {
                 for(var x = -1; x < xSize; x++) {
    
-                    var height = 1.0,
-                        xPos = (x-xSize)*WALL_WIDTH,
-                        yPos = height / 2.0,
+                    var xPos = (x-xSize)*WALL_WIDTH,
                         zPos = (y-ySize)*WALL_WIDTH;
 
                     // draw end cap
-                    height = 2.0;
-                    yPos = height / 2.0;
-                      if(!this.drawMazeWall({
+                    // TODO - get yPos for end cap height
+                    if(!this.drawMazeWall({
                         position: {
                             x: xPos + CELL_SIZE / 2.0,
-                            y: yPos,
+                            y: this.capHeight / 2.0,
                             z: zPos + CELL_SIZE / 2.0
                         },
-                        wall: this.data.cap
+                        cap: true
                     })) {
                         return;
                     }
             
                     if(!(this.data.entrance && y === ySize - 1 && x === xSize - 1)) {
-                        // If not last cell (entrance)
+                        // If not last cell (entrance), see if south wall needs to be drawn
                         if(!maze.connects( x, y, "S" ) && x >= 0) {
                             // draw south wall
-                            height = 1.0;
                             if(!this.drawMazeWall({
                                 position: {
                                     x: xPos,
-                                    y: height / 2.0,
+                                    y: yPos,
                                     z: zPos + CELL_SIZE / 2
                                 },
                             })) {
@@ -126,11 +140,10 @@ module.exports.Component = {
 
                     if(!maze.connects( x, y, "E" ) && y >= 0) {
                         // draw east wall
-                        height = 0.75;
                         if(!this.drawMazeWall({
                             position: {
                                 x: xPos + CELL_SIZE / 2,
-                                y: yPos = height / 2.0,
+                                y: yPos,
                                 z: zPos
                             },
                             rotation: { x: 0, y: 90, z: 0 }
