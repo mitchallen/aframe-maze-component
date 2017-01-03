@@ -6,12 +6,12 @@
     <meta name="description" content="demo: aframe-maze-component">
     <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
     <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.2.0/dist/aframe-extras.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script> 
     <!-- 
-      <script src="dist/aframe-maze-component.min.js"></script>
+      <script src="../../dist/aframe-maze-component.min.js"></script> 
     -->
-    <script src="dist/aframe-maze-component.js"></script>
-    <script>
+    <script src="../../dist/aframe-maze-component.js"></script>
+    <script> 
  
     </script>
   </head>
@@ -24,38 +24,31 @@
           static-body material="src: #texture-wall" 
           depth="1" width="4" height="1"></a-box>
         <a-cylinder id="end-cap"
-          static-body color="#444444" material="src: #texture-wall"
+          static-body color="#444444" 
           depth="1.1" width="1.1" height="2"
           radius="0.5"></a-cylinder>
       </a-assets>
       <a-sky id="sky" color="#0000ff"></a-sky>
-      <!--  Camera -->
-      <!--
-      <a-camera id="camera" position="0 2 4">
-        <a-cursor color="#4CC3D9" fuse="false" timeout="10"></a-cursor>
-      </a-camera>
-      -->
-
-      <!-- normal player position = 0 1.8 0 -->
       <a-entity id="player"
           camera
           universal-controls
           kinematic-body
-          position="0 10.8 0">
+          position="21 20.8 21">
       </a-entity>
       <!-- birds-eye view box to stand on -->
-      <a-box static-body position="0 9.8 0" 
+      <a-box static-body position="21 19.8 21" 
           depth="0.25" height="0.5" width="0.5" 
-          rotation="0 45 0" color="#4CC3D9"></a-box>
+          rotation="0 45 0" color="tomato"></a-box>
 
-      <a-entity id="maze1" maze='size: 5 6; wall: #wall-one; cap: #end-cap;' position='0 0 0'></a-entity>
-      <a-entity id="maze2" maze='size: 5 6; entrance: false;' position='0 4.0 0'></a-entity>
+      <a-entity id="maze1" 
+          maze='size: 10 11; exit: true; wall: #wall-one; cap: #end-cap;' 
+          position='20 0 20'></a-entity>
       <!--
+      <a-entity id="maze2" maze='size: 5 6; entrance: false;' position='0 4.0 0'></a-entity>
       <a-entity id="maze3" maze='size: 5 6; entrance: false;' position='0 8.0 0'></a-entity>
       <a-entity id="maze4" maze='size: 5 6; entrance: false;' position='0 16.0 0'></a-entity>
       -->
-
-      <a-grid id="ground" static-body material="src: #texture-floor"></a-grid>
+      <a-grid id="ground" static-body color="#444444"></a-grid>
     </a-scene>
     <!--
       <script src="js/app.js"></script>

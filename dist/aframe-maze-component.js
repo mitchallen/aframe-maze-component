@@ -63,6 +63,7 @@ module.exports.Component = {
             default: "5, 6"
         },
         entrance: { default: true },
+        exit: { default: true },
         wall: { default: "" },
         cap: { default: "" }
     },
@@ -159,7 +160,10 @@ module.exports.Component = {
                         return;
                     }
 
-                    if (!(this.data.entrance && y === ySize - 1 && x === xSize - 1)) {
+                    var isEntrance = y === ySize - 1 && x === xSize - 1;
+                    var isExit = y === -1 && x === 0;
+
+                    if (!(this.data.entrance && isEntrance || this.data.exit && isExit)) {
                         // If not last cell (entrance), see if south wall needs to be drawn
                         if (!maze.connects(x, y, "S") && x >= 0) {
                             // draw south wall
