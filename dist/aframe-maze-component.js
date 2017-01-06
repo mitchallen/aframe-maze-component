@@ -405,16 +405,24 @@ module.exports.create = function (spec) {
                     for (var key in list) {
                         var id = list[key];
                         if (open.border === "N") {
-                            this.open(id, 0, "N");
+                            if (id >= 0 && id < _x) {
+                                this.open(id, 0, "N");
+                            }
                         }
                         if (open.border === "S") {
-                            this.open(id, _y - 1, "S");
+                            if (id >= 0 && id < _x) {
+                                this.open(id, _y - 1, "S");
+                            }
                         }
                         if (open.border === "W") {
-                            this.open(0, id, "W");
+                            if (id >= 0 && id < _y) {
+                                this.open(0, id, "W");
+                            }
                         }
                         if (open.border === "E") {
-                            this.open(_x - 1, id, "E");
+                            if (id >= 0 && id < _y) {
+                                this.open(_x - 1, id, "E");
+                            }
                         }
                     }
                 } else {
