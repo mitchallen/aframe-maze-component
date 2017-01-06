@@ -73,23 +73,49 @@ module.exports.Component = {
         * Called once when component is attached. Generally for initial setup.
      */
     init: function init() {
-        console.log("INIT DATA: \n", this.data);
-        console.log("THIS.EL: \n", this.el);
+
+        this.mazeData = {};
 
         var p = document.getElementById(this.data.wall);
         if (p) {
-            this.wallWidth = p.getAttribute("width");
-            this.wallDepth = p.getAttribute("depth");
-            this.wallHeight = p.getAttribute("height");
+            this.mazeData.wallWidth = p.getAttribute("width");
+            this.mazeData.wallDepth = p.getAttribute("depth");
+            this.mazeData.wallHeight = p.getAttribute("height");
         } else {
-            this.wallWidth = 4;
-            this.wallDepth = 1;
-            this.wallHeight = 1;
+            this.mazeData.wallWidth = 4;
+            this.mazeData.wallDepth = 1;
+            this.mazeData.wallHeight = 1;
         }
-        var c = document.getElementById(this.data.cap);
-        this.capHeight = c ? c.getAttribute('height') : 1;
 
-        // build open list
+        this.buildCapInfo();
+
+        this.buildOpenSpec();
+    },
+
+    buildCapInfo: function buildCapInfo() {
+
+        // set cap info
+        var capInfo = this.data.cap.split(' ');
+        var capId = "";
+        var capAdjust = 0;
+        if (capInfo.length > 0) {
+            capId = capInfo[0];
+            capId = capId[0] == '#' ? capId.substring(1) : capId;
+            if (capInfo[1]) {
+                capAdjust = parseFloat(capInfo[1]);
+            }
+        }
+
+        this.mazeData.capId = capId;
+
+        var c = document.getElementById(capId);
+        this.mazeData.capHeight = (c ? parseFloat(c.getAttribute('height')) : 1.0) + capAdjust;
+
+        console.log("CAP ID:", capId, "CAP ADJUST:", capAdjust, "CAP HEIGHT:", this.mazeData.capHeight);
+    },
+
+    buildOpenSpec: function buildOpenSpec() {
+        // build open border list
         var openList = {
             "N": [],
             "E": [],
@@ -108,13 +134,11 @@ module.exports.Component = {
                 }
             }
         }
-        console.log("OPEN LIST:", openList);
-        this.openSpec = [];
+        this.mazeData.openSpec = [];
         for (var b in openList) {
             var lst = openList[b];
-            this.openSpec.push({ border: b, list: lst });
+            this.mazeData.openSpec.push({ border: b, list: lst });
         }
-        console.log("OPEN SPEC:", this.openSpec);
     },
 
     drawMazeWall: function drawMazeWall(spec) {
@@ -123,7 +147,7 @@ module.exports.Component = {
         var position = spec.position,
             rotation = spec.rotation || { x: 0, y: 0, z: 0 },
             cap = spec.cap || false,
-            wallId = cap ? this.data.cap : this.data.wall;
+            wallId = cap ? this.mazeData.capId : this.data.wall;
 
         wallId = wallId[0] == '#' ? wallId.substring(1) : wallId;
 
@@ -138,9 +162,9 @@ module.exports.Component = {
             w = document.createElement('a-box');
             this.el.appendChild(w);
             w.setAttribute('color', 'tomato');
-            w.setAttribute('width', cap ? 1 : this.wallWidth);
-            w.setAttribute('depth', cap ? this.capHeight : this.wallDepth);
-            w.setAttribute('height', cap ? 1 : this.wallHeight);
+            w.setAttribute('width', cap ? 1 : this.mazeData.wallWidth);
+            w.setAttribute('depth', cap ? this.mazeData.capHeight : this.mazeData.wallDepth);
+            w.setAttribute('height', cap ? 1 : this.mazeData.wallHeight);
             w.setAttribute('static-body', '');
         } else {
             w = p.cloneNode(true);
@@ -153,7 +177,6 @@ module.exports.Component = {
     },
 
     update: function update() {
-        console.log("DATA: \n", this.data);
         if (!this.data.enabled) {
             return;
         }
@@ -162,31 +185,27 @@ module.exports.Component = {
                 ySize = this.data.size.y;
             maze = mazeFactory.create({ x: xSize, y: ySize });
             var options = {};
-            if (this.openSpec) {
-                options.open = this.openSpec;
+            if (this.mazeData.openSpec) {
+                options.open = this.mazeData.openSpec;
             }
-            console.log("OPTIONS: ", options);
             maze.generate(options);
             maze.printBoard();
-            var WALL_WIDTH = this.wallWidth,
-                WALL_DEPTH = this.wallDepth,
-                WALL_HEIGHT = this.wallHeight,
+            var WALL_WIDTH = this.mazeData.wallWidth,
+                WALL_DEPTH = this.mazeData.wallDepth,
+                WALL_HEIGHT = this.mazeData.wallHeight,
                 CELL_SIZE = WALL_WIDTH,
                 yPos = WALL_HEIGHT / 2.0;
-
-            console.log("MAZE CONNECT:", maze.connects(0, 0, "N"), maze.connects(0, 1, "N"));
-
             for (var y = -1; y < ySize; y++) {
                 for (var x = -1; x < xSize; x++) {
-
                     var xPos = (x - xSize) * WALL_WIDTH,
                         zPos = (y - ySize) * WALL_WIDTH;
 
                     // draw end cap
                     if (!this.drawMazeWall({
+
                         position: {
                             x: xPos + CELL_SIZE / 2.0,
-                            y: this.capHeight / 2.0,
+                            y: this.mazeData.capHeight / 2.0,
                             z: zPos + CELL_SIZE / 2.0
                         },
                         cap: true

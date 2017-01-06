@@ -33,22 +33,35 @@
           camera
           universal-controls
           kinematic-body
-          position="21 20.8 21">
+          position="0 20.8 2">
       </a-entity>
       <!-- birds-eye view box to stand on -->
-      <a-box static-body position="21 19.8 21" 
+      <a-box static-body 
+          position="0 19.8 2" 
           depth="0.25" height="0.5" width="0.5" 
-          rotation="0 45 0" color="tomato"></a-box>
+          rotation="0 0 0" color="tomato"></a-box>
 
       <a-entity id="maze1" 
-          maze='size: 10 11; exit: true; wall: #wall-one; cap: #end-cap; open: S 0 5 9 E 10 N 0 5 9 W 0 5 10;' 
-          position='20 0 20'></a-entity>
+          maze='size: 10 11; wall: #wall-one; cap: #end-cap; open: S 0 5 9 E 10 N 0 5 9 W 0 5 10;' 
+          position='0 0 0'></a-entity>
+
+      <a-entity id="maze2" 
+          maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 4;' 
+          position='25 0 0'></a-entity>
+
+      <a-entity id="maze3A" 
+          maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 4;' 
+          position='25 0 -30'></a-entity>
+
+      <a-entity id="maze3B" 
+          maze='size: 5 6; wall: #wall-one; cap: #end-cap -0.1;' 
+          position='25 4 -30'></a-entity>
       <!--
       <a-entity id="maze2" maze='size: 5 6;' position='0 4.0 0'></a-entity>
       <a-entity id="maze3" maze='size: 5 6;' position='0 8.0 0'></a-entity>
       <a-entity id="maze4" maze='size: 5 6;' position='0 16.0 0'></a-entity>
       -->
-      <a-grid id="ground" static-body color="#444444"></a-grid>
+      <a-grid id="ground" width="200" height="200" static-body color="#444444"></a-grid>
     </a-scene>
     <!--
       <script src="js/app.js"></script>
