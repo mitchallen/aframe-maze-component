@@ -13,7 +13,7 @@ module.exports = function (grunt) {
             options: {
                 node: true
             },
-            all: ['*.js']
+            all: ['*.js','./modules/*.js']
         },
 
         shell: {
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
         watch: {
              scripts: {
                 files: ["./modules/*.js","./*.js"],
-                tasks: ["browserify",'uglify']
+                tasks: ['browserify','uglify']
              }
         }
     });

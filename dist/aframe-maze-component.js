@@ -62,8 +62,9 @@ module.exports.Component = {
             type: 'vec2',
             default: "5, 6"
         },
-        entrance: { default: true },
-        exit: { default: true },
+        open: {
+            default: ""
+        },
         wall: { default: "" },
         cap: { default: "" }
     },
@@ -74,6 +75,7 @@ module.exports.Component = {
     init: function init() {
         console.log("INIT DATA: \n", this.data);
         console.log("THIS.EL: \n", this.el);
+
         var p = document.getElementById(this.data.wall);
         if (p) {
             this.wallWidth = p.getAttribute("width");
@@ -86,6 +88,33 @@ module.exports.Component = {
         }
         var c = document.getElementById(this.data.cap);
         this.capHeight = c ? c.getAttribute('height') : 1;
+
+        // build open list
+        var openList = {
+            "N": [],
+            "E": [],
+            "W": [],
+            "S": []
+        };
+        var tokens = this.data.open.split(' ');
+        var border = null;
+        for (var key in tokens) {
+            var token = tokens[key];
+            if (["N", "E", "W", "S"].indexOf(token) >= 0) {
+                border = token;
+            } else {
+                if (border) {
+                    openList[border].push(parseInt(token, 10));
+                }
+            }
+        }
+        console.log("OPEN LIST:", openList);
+        this.openSpec = [];
+        for (var b in openList) {
+            var lst = openList[b];
+            this.openSpec.push({ border: b, list: lst });
+        }
+        console.log("OPEN SPEC:", this.openSpec);
     },
 
     drawMazeWall: function drawMazeWall(spec) {
@@ -98,8 +127,8 @@ module.exports.Component = {
 
         wallId = wallId[0] == '#' ? wallId.substring(1) : wallId;
 
-        if (!position || !parent) {
-            console.error("drawMazeWall requires position and parent");
+        if (!position) {
+            console.error("drawMazeWall requires position");
             return false;
         }
 
@@ -132,14 +161,20 @@ module.exports.Component = {
             var xSize = this.data.size.x,
                 ySize = this.data.size.y;
             maze = mazeFactory.create({ x: xSize, y: ySize });
-            maze.generate();
+            var options = {};
+            if (this.openSpec) {
+                options.open = this.openSpec;
+            }
+            console.log("OPTIONS: ", options);
+            maze.generate(options);
             maze.printBoard();
-            ;
             var WALL_WIDTH = this.wallWidth,
                 WALL_DEPTH = this.wallDepth,
                 WALL_HEIGHT = this.wallHeight,
                 CELL_SIZE = WALL_WIDTH,
                 yPos = WALL_HEIGHT / 2.0;
+
+            console.log("MAZE CONNECT:", maze.connects(0, 0, "N"), maze.connects(0, 1, "N"));
 
             for (var y = -1; y < ySize; y++) {
                 for (var x = -1; x < xSize; x++) {
@@ -148,7 +183,6 @@ module.exports.Component = {
                         zPos = (y - ySize) * WALL_WIDTH;
 
                     // draw end cap
-                    // TODO - get yPos for end cap height
                     if (!this.drawMazeWall({
                         position: {
                             x: xPos + CELL_SIZE / 2.0,
@@ -160,26 +194,21 @@ module.exports.Component = {
                         return;
                     }
 
-                    var isEntrance = y === ySize - 1 && x === xSize - 1;
-                    var isExit = y === -1 && x === 0;
+                    if (!maze.connects(x, y, "S") && x >= 0 && !(y === -1 && maze.connects(x, 0, "N"))) {
+                        // draw south wall
 
-                    if (!(this.data.entrance && isEntrance || this.data.exit && isExit)) {
-                        // If not last cell (entrance), see if south wall needs to be drawn
-                        if (!maze.connects(x, y, "S") && x >= 0) {
-                            // draw south wall
-                            if (!this.drawMazeWall({
-                                position: {
-                                    x: xPos,
-                                    y: yPos,
-                                    z: zPos + CELL_SIZE / 2
-                                }
-                            })) {
-                                return;
+                        if (!this.drawMazeWall({
+                            position: {
+                                x: xPos,
+                                y: yPos,
+                                z: zPos + CELL_SIZE / 2
                             }
+                        })) {
+                            return;
                         }
                     }
 
-                    if (!maze.connects(x, y, "E") && y >= 0) {
+                    if (!maze.connects(x, y, "E") && y >= 0 && !(x === -1 && maze.connects(0, y, "W"))) {
                         // draw east wall
                         if (!this.drawMazeWall({
                             position: {
@@ -277,6 +306,102 @@ module.exports.create = function (spec) {
 
     return Object.assign(obj, {
 
+        /**
+          * Called by base class after generate generates the maze.
+          * Not meant to be called directly. The generate method will pass the spec on to this method.
+          * @param {Object} spec Object containing named parameters passed through generate method.
+          * @param {Array} spec.open Array of objects specifying what borders to open
+          * @param {Object} spec.open[i]. Item containing info on how to open border
+          * @param {string} spec.open[i].border String representing border ("N","E","W","S")
+          * @param {number} spec.open[i].list[j]. Zero-based id along border designating which cell to open
+          * @function
+          * @instance
+          * @memberof module:maze-generator-square
+          * @example <caption>open north border</caption>
+          * // calls generate to pass spec on to afterGenerate
+          * var xSize = 5, ySize = 6;
+          * var mazeGenerator = factory.create({ x: xSize, y: ySize });
+          * let spec = {
+          *     open: [
+          *         { border: "N", list: [0,2,xSize-1] }
+          *     ]
+          * };
+          * mazeGenerator.generate(spec);
+          * mazeGenerator.printBoard();
+          * // example output
+          *    __  __  
+          * | |  _  | |
+          * |___| |_  |
+          * |  _|   | |
+          * | |  _| | |
+          * | |_  |___|
+          * |_________|
+          * @example <caption>open all border</caption>
+          * // calls generate to pass spec on to afterGenerate
+          * var xSize = 5, ySize = 6;
+          * var mazeGenerator = factory.create({ x: xSize, y: ySize });
+          * let spec = {
+          *     open: [
+          *         { border: "N", list: [0,2,xSize-1] },
+          *         { border: "S", list: [0,2,xSize-1] },
+          *         { border: "E", list: [0,2,ySize-1] },
+          *         { border: "W", list: [0,2,ySize-1] }
+          *     ]
+          * };
+          * mazeGenerator.generate(spec);
+          * mazeGenerator.printBoard();
+          * // example output
+          *   __  __  
+          *  _  |   |  
+          * | | | |_  |
+          *   |___| |  
+          * |  _  |  _|
+          * |   |_|_  |
+          *   |_   _   
+          */
+        afterGenerate: function afterGenerate(spec) {
+
+            spec = spec || {};
+            var aOpen = spec.open || [];
+
+            if (aOpen.length === 0) {
+                return;
+            }
+
+            var borders = ["N", "E", "W", "S"];
+
+            for (var oKey in aOpen) {
+                var open = aOpen[oKey];
+                if (borders.indexOf(open.border) >= 0) {
+
+                    var list = open.list;
+
+                    if (!list) {
+                        console.error("ERROR: open border requires list parameter.");
+                        continue;
+                    }
+
+                    for (var key in list) {
+                        var id = list[key];
+                        if (open.border === "N") {
+                            this.open(id, 0, "N");
+                        }
+                        if (open.border === "S") {
+                            this.open(id, _y - 1, "S");
+                        }
+                        if (open.border === "W") {
+                            this.open(0, id, "W");
+                        }
+                        if (open.border === "E") {
+                            this.open(_x - 1, id, "E");
+                        }
+                    }
+                } else {
+                    console.error("ERROR: open.border ('%s') not found", open.border);
+                }
+            }
+        },
+
         /** Print board to console. Review this method to discover how to draw a maze.
           * Drawing a square maze work like this:
           * <ul>
@@ -292,7 +417,7 @@ module.exports.create = function (spec) {
           * @instance
           * @memberof module:maze-generator-square
           * @example <caption>console output</caption>
-              MAZE: 20, 20
+          * MAZE: 20, 20
         _______________________________________
         |_  |    ___  |___   _   _|  ___   _  | |
         | | | |___  | |   |_  |_____| |  _|  _| |
@@ -319,15 +444,19 @@ module.exports.create = function (spec) {
             console.log("MAZE: %d, %d", _x, _y);
             // print top north walls
             var border = "";
-            var lim = _x * 2;
-            for (var i = 0; i < lim; i++) {
-                border += i === 0 ? " " : "_";
+            // var lim = _x  * 2;
+            // for( var i = 0; i < lim; i++ ) {
+            //     border += i === 0 ? " " : this.connects(i,0,"N") ? " " : "_";
+            // }
+            for (var i = 0; i < _x; i++) {
+                border += i === 0 ? " " : "";
+                border += this.connects(i, 0, "N") ? "  " : "__";
             }
             console.log(border);
             // print maze east and south walls
             var dirMap = this.dirMap;
             for (var y = 0; y < _y; y++) {
-                var row = "|"; // print west wall
+                var row = this.connects(0, y, "W") ? " " : "|";
                 for (var x = 0; x < _x; x++) {
                     row += this.connects(x, y, "S") ? " " : "_";
                     if (this.connects(x, y, "E")) {
@@ -358,6 +487,38 @@ module.exports.create = function (spec) {
 var gridFactory = _dereq_("@mitchallen/grid-square"),
     baseGrid = _dereq_("@mitchallen/connection-grid-core").create;
 
+/**
+ * Connection Grid Core
+ * @external @mitchallen/connection-grid-core
+ * @see {@link https://www.npmjs.com/package/@mitchallen/connection-grid-core|@mitchallen/connection-grid-core}
+ */
+
+/**
+* Connection Grid Square generated by {@link module:connection-grid-square-factory|create}
+* @module connection-grid-square
+* @extends external:@mitchallen/connection-grid-core
+*/
+
+/**
+* 
+* A factory for generating connection grid square objects
+* @module connection-grid-square-factory
+*/
+
+/** 
+* Factory method that returns a connection grid square object.
+* It takes one spec parameter that must be an object with named parameters.
+* @param {Object} options Named parameters for generating a connection grid square
+* @param {number} options.x The size along the x axis
+* @param {number} options.y The size along the y axis
+* @returns {module:connection-grid-square}
+* @example <caption>Creating a connection-grid-square</caption>
+* "use strict";
+* var gridFactory = require("@mitchallen/connection-grid-square");
+* let xSize = 5;
+* let ySize = 6;
+* var grid = gridFactory.create({ x: xSize, y: ySize });
+*/
 module.exports.create = function (spec) {
 
     spec = spec || {};
@@ -390,6 +551,15 @@ module.exports.create = function (spec) {
     });
 
     Object.assign(obj, {
+        /** Returns neighbor for direction
+          * @param {string} dir A string representing a direction
+          * @function
+          * @instance
+          * @memberof module:connection-grid-square
+          * @returns {string}
+          * @example <caption>usage</caption>
+          * var cell = grid.getNeighbor(1,1,"S"); 
+         */
         getNeighbor: function getNeighbor(x, y, dir) {
             if (!this.isCell(x, y)) {
                 return null;
@@ -407,6 +577,16 @@ module.exports.create = function (spec) {
             }
             return { x: nx, y: ny };
         },
+        /** Returns an array of neighbors for the cell at x,y
+          * @param {number} x X coordinate of cell
+          * @param {number} y Y coordinate of cell
+          * @function
+          * @instance
+          * @memberof module:connection-grid-square
+          * @returns {array} 
+          * @example <caption>usage</caption>
+          * var list = grid.getNeighborDirs(1,1); 
+         */
         getNeighborDirs: function getNeighborDirs(x, y) {
             // Classic ignores x and y, but other derived classes may not
             return ["N", "S", "E", "W"];
@@ -431,6 +611,49 @@ module.exports.create = function (spec) {
 
 var shuffleFactory = _dereq_("@mitchallen/shuffle");
 
+/**
+ * Grid Core
+ * @external @mitchallen/grid-core
+ * @see {@link https://www.npmjs.com/package/@mitchallen/grid-core|@mitchallen/grid-core}
+ */
+
+/**
+ * Connection Grid Core generated by {@link module:connection-grid-core-factory|create}
+ * @module connection-grid-core
+ * @extends external:@mitchallen/grid-core
+ */
+
+/**
+ * 
+ * A factory for generating connection grid core objects
+ * @module connection-grid-core-factory
+ */
+
+/** 
+* Factory method that returns a connection grid core object.
+* It takes one spec parameter that must be an object with named parameters.
+* @param {Object} options Named parameters for generating a connection grid core
+* @param {grid} options.grid Grid based on {@link external:@mitchallen/grid-core|@mitchallen/grid-core}
+* @param {dirMap} options.dirMap Direction map containing bit map flags for directions
+* @param {oppositeMap} options.oppositeMap Opposite direction map
+* @returns {module:connection-grid-core}
+* @example <caption>Creating a connection-grid-core</caption>
+* "use strict";
+* var gridFactory = require("@mitchallen/connection-grid-core"),
+*     gridSquare = require('@mitchallen/grid-square')
+* var sourceGrid = gridSquare.create({ x: 5, y: 6 });
+* var _dirMap = { 
+*     "N": 0x010, 
+*     "S": 0x020, 
+*     "E": 0x040, 
+*     "W": 0x080 };
+* let _oppositeMap = { "E": "W", "W": "E", "N": "S", "S": "N" };
+* var cg = gridFactory.create({  
+*     grid: sourceGrid,     
+*     dirMap: _dirMap,
+*     oppositeMap: _oppositeMap 
+* });
+*/
 module.exports.create = function (spec) {
 
     spec = spec || {};
@@ -457,51 +680,153 @@ module.exports.create = function (spec) {
 
     return Object.assign(_grid, {
 
+        /** Returns true if string is found in DIR_MAP array.
+          * @param {string} dir A string representing a direction
+          * @function
+          * @instance
+          * @memberof module:connection-grid-core
+          * @returns {boolean}
+          * @example <caption>usage</caption>
+          * if(core.isDir("N")) ...
+         */
         isDir: function isDir(dir) {
             if (typeof dir === 'string') {
                 return _DIR_MAP[dir] !== undefined;
             }
             return false;
         },
+        /** Returns opposite direction based on OPPOSITE array.
+          * @param {string} dir A string representing a direction
+          * @function
+          * @instance
+          * @memberof module:connection-grid-core
+          * @returns {string}
+          * @example <caption>usage</caption>
+          * core.getOppositeDir("N").should.eql("S");
+         */
         getOppositeDir: function getOppositeDir(dir) {
             if (!this.isDir(dir)) {
                 return null;
             }
             return _OPPOSITE[dir];
         },
+        /** Returns the neighbor in a particular direction for a cell at x,y.
+          * <b>This should be overriden by derived class</b>
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @param {string} dir A string representing a direction
+          * @function
+          * @instance
+          * @memberof module:connection-grid-core
+          * @returns {string}
+          * @example <caption>usage</caption>
+          * var neighbor = core.getNeighbor(1,2,"N");
+         */
         getNeighbor: function getNeighbor(x, y, dir) {
             // derived should override
             console.log("getNeighbor should be overriden by derived class");
             return null;
         },
+        /** Returns the neighbor directions for a cell at x,y.
+          * <b>This should be overriden by derived class</b>.
+          * Classic square grids ignore x and y, but other derived classes, like hexagon, may not.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @function
+          * @instance
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * var neighbors = core.getNeighborDirs(1,2);
+         */
         getNeighborDirs: function getNeighborDirs(x, y) {
             // derived should override
             // Classic ignores x and y, but other derived classes may not
             console.log("getNeighborDirs should be overriden by derived class");
             return [];
         },
+        /** Returns a shuffled list of neighbors for a cell at x,y.
+          * Useful for generating random mazes.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @function
+          * @instance
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * var neighbors = core.getShuffledNeighborDirs(1,2);
+         */
         getShuffledNeighborDirs: function getShuffledNeighborDirs(x, y) {
             var shuffler = shuffleFactory.create({ array: this.getNeighborDirs(x, y) });
             return shuffler.shuffle();
         },
+        /** Marks a cell at x,y as visited.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @function
+          * @instance
+          * @returns {boolean}
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * core.markVisited(1,2);
+         */
         markVisited: function markVisited(x, y) {
             return this.set(x, y, this.get(x, y) | VISITED);
         },
+        /** Returns true if a cell at x,y exists and it has been marked as visited.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @function
+          * @instance
+          * @returns {boolean}
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * if(core.visited(x)) ...
+         */
         visited: function visited(x, y) {
             if (!this.isCell(x, y)) {
                 return false;
             }
             return (this.get(x, y) & VISITED) !== 0;
         },
+        /** Marks a cell at x,y as masked.
+          * Useful for maze generators to mark cells to skip
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @function
+          * @instance
+          * @returns {boolean}
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * core.mask(1,2)
+         */
         mask: function mask(x, y) {
             return this.set(x, y, this.get(x, y) | MASKED);
         },
+        /** Returns true if a cell at x,y has been marked using [mask]{@link module:connection-grid-core#mask}.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @function
+          * @instance
+          * @returns {boolean}
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * if(core.isMasked(1,2)) ...
+         */
         isMasked: function isMasked(x, y) {
             if (!this.isCell(x, y)) {
                 return false;
             }
             return (this.get(x, y) & MASKED) !== 0;
         },
+        /** Returns true if a cell at x,y has connections.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @function
+          * @instance
+          * @returns {boolean}
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * if(core.hasConnections(1,2)) ...
+         */
         hasConnections: function hasConnections(x, y) {
             // Need to discount visited flag, etc
             var cell = this.get(x, y);
@@ -525,12 +850,56 @@ module.exports.create = function (spec) {
             }
             return false;
         },
+        /** Maps a connection for a cell at x,y in a particular direction.
+          * Unlike [connect]{@link module:connection-grid-core#connect} a cell in the direction does not have to exist.
+          * Useful for mazes that need to open up border walls.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @param {string} dir A string representing a direction
+          * @function
+          * @instance
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * core.open(0,0,"N");
+         */
+        open: function open(x, y, dir) {
+            // dir must be string
+            if (!this.isDir(dir)) {
+                return false;
+            }
+            return this.set(x, y, this.get(x, y) | _DIR_MAP[dir]);
+        },
+        /** Maps a connection for a cell at x,y in a particular direction.
+          * Returns false if the cell in the target direction does not exist.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @param {string} dir A string representing a direction
+          * @function
+          * @instance
+          * @returns {boolean}
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * if(core.connect(1,2,"N")) ...
+         */
         connect: function connect(x, y, dir) {
             // dir must be string
             // Connect cell to neighbor (one way)}
             if (!this.getNeighbor(x, y, dir)) return false;
-            return this.set(x, y, this.get(x, y) | _DIR_MAP[dir]);
+            return this.open(x, y, dir);
         },
+        /** Maps a connection for a cell at x,y in a particular direction.
+          * Also maps a connection from the target cell back to the source cell.
+          * Returns false if the cell in the target direction does not exist.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @param {string} dir A string representing a direction
+          * @function
+          * @instance
+          * @returns {boolean}
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * if(core.connectUndirected(1,2,"N")) ...
+         */
         connectUndirected: function connectUndirected(x, y, sDir) {
             // dir must be a string
             if (!this.connect(x, y, sDir)) {
@@ -542,6 +911,18 @@ module.exports.create = function (spec) {
             }
             return true;
         },
+        /** Returns true if a cell connects to a neighbor cell in a particular direction.
+          * It does not matter if a the target cell exists such as when [open]{@link module:connection-grid-core#open} maps a connection to a non-existant cell.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @param {string} dir A string representing a direction
+          * @returns {boolean}
+          * @function
+          * @instance
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * if(core.connects(1,2,"N")) ...
+         */
         connects: function connects(x, y, sDir) {
             if (!this.isDir(sDir)) {
                 console.error("connects unknown direction: ", sDir);
@@ -554,6 +935,17 @@ module.exports.create = function (spec) {
             var iDir = _DIR_MAP[sDir];
             return (cell & iDir) !== 0;
         },
+        /** Returns true if a cell connects to a neighbor cell in any direction in the list.
+          * @param {number} x The x coordinate
+          * @param {number} y The y coordinate
+          * @param {array} list An array of strings that each represent a direction
+          * @function
+          * @instance
+          * @returns {boolean}
+          * @memberof module:connection-grid-core
+          * @example <caption>usage</caption>
+          * if(core.connectsAny(1,2,["N","W"]) ...
+         */
         connectsAny: function connectsAny(x, y, list) {
             var _this = this;
 
@@ -768,6 +1160,39 @@ module.exports.create = function (spec) {
 
 "use strict";
 
+/**
+ * Connection Grid Core
+ * @external @mitchallen/connection-grid-core
+ * @see {@link https://www.npmjs.com/package/@mitchallen/connection-grid-core|@mitchallen/connection-grid-core}
+ */
+
+/**
+ * Maze Generator Core generated by {@link module:maze-generator-core-factory|create}
+ * @module maze-generator-core
+ * @extends external:@mitchallen/connection-grid-core
+ */
+
+/**
+ * 
+ * A factory for generating maze generator core objects
+ * @module maze-generator-core-factory
+ */
+
+/** 
+* Factory method that returns a maze generator core object.
+* It takes one spec parameter that must be an object with named parameters.
+* @param {Object} options Named parameters for generating a maze generator core
+* @param {grid} options.grid Grid based on {@link external:@mitchallen/connection-grid-core|@mitchallen/connection-grid-core}
+* @returns {module:maze-generator-core}
+* @example <caption>Creating a maze-generator-core</caption>
+* var cgFactory = require("@mitchallen/connection-grid-square"),
+*     mazeCore = require("@mitchallen/maze-generator-core"),
+*     connectionGrid = cgFactory.create( { x: 5, y: 6 } );
+*     maze = mazeCore.create( {
+*          grid: connectionGrid,
+*     });
+*/
+
 module.exports.create = function (spec) {
 
     spec = spec || {};
@@ -779,6 +1204,7 @@ module.exports.create = function (spec) {
 
     return Object.assign(_grid, {
 
+        // leave undocumented for now
         carveMaze: function carveMaze(x, y, depth, maxDepth) {
 
             if (depth >= maxDepth) {
@@ -808,6 +1234,61 @@ module.exports.create = function (spec) {
                 }
             }
         },
+
+        /**
+          * Method called after [generate]{@link module:maze-generator-core#generate} generates a maze.
+          * <b>This should be overriden by base class</b>.
+          * The spec parameter will be passed on to this method after the maze has been generated.
+          * The derived method should parse spec for needed values.
+          * @param {Object} spec Named parameters for method
+          * @function
+          * @instance
+          * @memberof module:maze-generator-core
+          * @example <caption>possible usage</caption>
+          * // A derived object would have an afterGenerate method that parses spec.open
+          * let spec = {
+          *    open: [
+          *      { border: "N", list: [ 0, 2 ] },
+          *      { border: "S", list: [ 3 ] }
+          *    ]
+          * };
+          * mazeGenerator.generate(spec);
+          */
+        afterGenerate: function afterGenerate(spec) {
+            // derived class should override
+        },
+
+        /** Generators a maze
+          * @param {Object} options Named parameters for generating a maze
+          * @param {Array} options.mask An array of cells to mask off from maze generation
+          * @param {Array} options.open An array of objects designation what borders to open after generation
+          * @param {Object} opions.start An object containing the x and y parameter of a cell to start maze generation from.
+          * @function
+          * @instance
+          * @memberof module:maze-generator-core
+          * @returns {boolean}
+          * @example <caption>generate</caption>
+          * maze.generate();
+          * @example <caption>mask</caption>
+          * let spec = {
+          *    mask: [
+          *      { c: 2, r: 3 },
+          *      { c: 2, r: 4 }
+          *    ]
+          * };
+          * mazeGenerator.generate(spec);
+          * @example <caption>start and mask</caption>
+          * let spec = {
+          *    start: { c: 3, r: 3 },
+          *    mask: [
+          *      { c: 0, r: 0 },
+          *      { c: 0, r: 1 },
+          *      { c: 1, r: 0 },
+          *      { c: 1, r: 1 }
+          *    ]
+          * };
+          * mazeGenerator.generate(spec);
+          */
         generate: function generate(spec) {
 
             spec = spec || {};
@@ -819,14 +1300,18 @@ module.exports.create = function (spec) {
 
             this.fill(0);
 
-            for (var key in aMask) {
-                var mask = aMask[key];
+            for (var mKey in aMask) {
+                var mask = aMask[mKey];
                 this.mask(mask.c, mask.r);
             }
 
             var maxDepth = this.xSize * this.ySize;
 
             this.carveMaze(x, y, 0, maxDepth);
+
+            // derived class can parse extra spec parameters
+
+            this.afterGenerate(spec);
         }
     });
 };

@@ -25,15 +25,11 @@ module.exports.Component = {
             type: 'vec2',
             default: "5, 6" 
         },
-        entrance: { default: true },
-        exit: { default: true },
+        open: { 
+            default: "" 
+        },
         wall: { default: "" },
         cap: { default: "" },
-        // wall: {
-        //     type: 'vec3',
-        //     // x: width, y: depth, z: height
-        //     default: { x: 5, y: 3, z: 1 }
-        // }
     },
 
     /**
@@ -42,6 +38,7 @@ module.exports.Component = {
     init: function () {
         console.log("INIT DATA: \n", this.data);
         console.log("THIS.EL: \n", this.el); 
+
         var p = document.getElementById(this.data.wall);
         if(p) {
             this.wallWidth = p.getAttribute("width");
@@ -54,6 +51,33 @@ module.exports.Component = {
         }
         var c = document.getElementById(this.data.cap);
         this.capHeight = c ? c.getAttribute('height') : 1;
+
+        // build open list
+        var openList = {
+            "N": [],
+            "E": [],
+            "W": [], 
+            "S": []
+        };
+        var tokens = this.data.open.split(' ');
+        var border = null;
+        for( var key in tokens ) {
+            var token = tokens[key];
+            if(["N","E","W","S"].indexOf(token) >= 0 ) {
+                border = token;
+            } else {
+                if(border) {
+                    openList[border].push(parseInt(token,10));
+                }
+            }
+        }
+        console.log("OPEN LIST:", openList);
+        this.openSpec = [];
+        for( var b in openList ) {
+            var lst = openList[b];
+            this.openSpec.push( { border: b, list: lst } );
+        }
+        console.log("OPEN SPEC:", this.openSpec);
     },
 
     drawMazeWall: function(spec) {
@@ -66,8 +90,8 @@ module.exports.Component = {
 
         wallId = wallId[0] == '#' ? wallId.substring(1) : wallId;
 
-        if(!position || !parent) {
-            console.error("drawMazeWall requires position and parent");
+        if(!position) {
+            console.error("drawMazeWall requires position");
             return false;
         }
 
@@ -98,14 +122,20 @@ module.exports.Component = {
             var xSize = this.data.size.x,
                 ySize = this.data.size.y;
             maze = mazeFactory.create( { x: xSize, y: ySize } );
-            maze.generate();
+            var options = {};
+            if( this.openSpec ) {
+                options.open = this.openSpec;
+            }
+            console.log("OPTIONS: ", options);
+            maze.generate(options);
             maze.printBoard();
-;
             var WALL_WIDTH = this.wallWidth,
                 WALL_DEPTH = this.wallDepth,
                 WALL_HEIGHT = this.wallHeight,
                 CELL_SIZE = WALL_WIDTH,
                 yPos = WALL_HEIGHT / 2.0;
+
+            console.log("MAZE CONNECT:" , maze.connects(0,0,"N"), maze.connects(0,1,"N"));
 
             for(var y = -1; y < ySize; y++) {
                 for(var x = -1; x < xSize; x++) {
@@ -114,7 +144,6 @@ module.exports.Component = {
                         zPos = (y-ySize)*WALL_WIDTH;
 
                     // draw end cap
-                    // TODO - get yPos for end cap height
                     if(!this.drawMazeWall({
                         position: {
                             x: xPos + CELL_SIZE / 2.0,
@@ -125,27 +154,28 @@ module.exports.Component = {
                     })) {
                         return;
                     }
-            
-                    var isEntrance = (y === ySize - 1 && x === xSize - 1);
-                    var isExit = (y === -1 && x === 0);
 
-                    if(! ((this.data.entrance && isEntrance) || (this.data.exit && isExit)) ) {
-                        // If not last cell (entrance), see if south wall needs to be drawn
-                        if(!maze.connects( x, y, "S" ) && x >= 0) {
-                            // draw south wall
-                            if(!this.drawMazeWall({
-                                position: {
-                                    x: xPos,
-                                    y: yPos,
-                                    z: zPos + CELL_SIZE / 2
-                                },
-                            })) {
-                                return;
-                            }
+                    if(
+                        !maze.connects( x, y, "S" ) && x >= 0 
+                        && !(y === -1 && maze.connects(x,0,"N")) 
+                    ) {
+                        // draw south wall
+
+                        if(!this.drawMazeWall({
+                            position: {
+                                x: xPos,
+                                y: yPos,
+                                z: zPos + CELL_SIZE / 2
+                            },
+                        })) {
+                            return; 
                         }
-                    }
+                    } 
 
-                    if(!maze.connects( x, y, "E" ) && y >= 0) {
+                    if(
+                        !maze.connects( x, y, "E" ) && y >= 0 
+                        && !(x === -1 && maze.connects(0,y,"W"))
+                    ){
                         // draw east wall
                         if(!this.drawMazeWall({
                             position: {
