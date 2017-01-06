@@ -154,10 +154,14 @@ module.exports.Component = {
                 WALL_HEIGHT = this.mazeData.wallHeight,
                 CELL_SIZE = WALL_WIDTH,
                 yPos = WALL_HEIGHT / 2.0;
+
+            var xOffset = (xSize + 1) * WALL_WIDTH / 2.0;
+            var yOffset = (ySize + 1) * WALL_WIDTH / 2.0;
+
             for(var y = -1; y < ySize; y++) {
                 for(var x = -1; x < xSize; x++) {
-                    var xPos = (x-xSize)*WALL_WIDTH,
-                        zPos = (y-ySize)*WALL_WIDTH;
+                    var xPos = xOffset + (x-xSize)*WALL_WIDTH,
+                        zPos = yOffset + (y-ySize)*WALL_WIDTH;
 
                     // draw end cap
                     if(!this.drawMazeWall({

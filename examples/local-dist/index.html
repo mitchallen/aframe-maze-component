@@ -29,26 +29,29 @@
           radius="0.5"></a-cylinder>
       </a-assets>
       <a-sky id="sky" color="#0000ff"></a-sky>
+      <a-box id="center" 
+          position="0 0 0"
+          color="red" 
+          depth="0.5" width="0.5" height="10"></a-box>
       <a-entity id="player"
           camera
           universal-controls
           kinematic-body
-          position="0 20.8 2">
+          position="-20 20.8 20">
       </a-entity>
       <!-- birds-eye view box to stand on -->
       <a-box static-body 
-          position="0 19.8 2" 
           depth="0.25" height="0.5" width="0.5" 
-          rotation="0 0 0" color="tomato"></a-box>
+          position="-20 19.8 20"
+          color="tomato"></a-box>
 
       <a-entity id="maze1" 
-          maze='size: 10 11; wall: #wall-one; cap: #end-cap; open: S 0 5 9 E 10 N 0 5 9 W 0 5 10;' 
+          maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 4;' 
           position='0 0 0'></a-entity>
 
       <a-entity id="maze2" 
-          maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 4;' 
-          position='40 0 -10'
-          rotation="0 45 0"></a-entity>
+          maze='size: 7 3; wall: #wall-one; cap: #end-cap; open: S 0 N 4;' 
+          position='30 0 0'></a-entity>
 
       <a-entity id="maze3A" 
           maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 4;' 
@@ -57,11 +60,8 @@
       <a-entity id="maze3B" 
           maze='size: 5 6; wall: #wall-one; cap: #end-cap -0.1;' 
           position='25 4 -30'></a-entity>
-      <!--
-      <a-entity id="maze2" maze='size: 5 6;' position='0 4.0 0'></a-entity>
-      <a-entity id="maze3" maze='size: 5 6;' position='0 8.0 0'></a-entity>
-      <a-entity id="maze4" maze='size: 5 6;' position='0 16.0 0'></a-entity>
       -->
+
       <a-grid id="ground" width="200" height="200" static-body color="#444444"></a-grid>
     </a-scene>
     <!--
