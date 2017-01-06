@@ -73,8 +73,6 @@ module.exports.Component = {
 
         var c = document.getElementById(capId);
         this.mazeData.capHeight = (c ? parseFloat(c.getAttribute('height')) : 1.0) + capAdjust;
-
-        console.log("CAP ID:", capId, "CAP ADJUST:",  capAdjust, "CAP HEIGHT:", this.mazeData.capHeight);
     },
 
     buildOpenSpec: function() {
