@@ -3,6 +3,8 @@
     Author: Mitch Allen
 */
 
+
+/*jshint browser: true */
 /*jshint node: true */
 /*jshint esversion: 6 */
 
@@ -58,12 +60,12 @@ module.exports.Component = {
     buildCapInfo: function() {
 
         // set cap info
-        var capInfo = this.data.cap.split(' ');
+        var capInfo = this.data.cap.split(' '); 
         var capId = "";
         var capAdjust = 0;
         if(capInfo.length > 0) {
             capId = capInfo[0];
-            capId = capId[0] == '#' ? capId.substring(1) : capId
+            capId = capId[0] == '#' ? capId.substring(1) : capId;
             if(capInfo[1]) {
                 capAdjust = parseFloat(capInfo[1]);
             }
@@ -177,8 +179,8 @@ module.exports.Component = {
                     }
 
                     if(
-                        !maze.connects( x, y, "S" ) && x >= 0 
-                        && !(y === -1 && maze.connects(x,0,"N")) 
+                        !maze.connects( x, y, "S" ) && x >= 0 && 
+                        !(y === -1 && maze.connects(x,0,"N")) 
                     ) {
                         // draw south wall
 
@@ -194,8 +196,8 @@ module.exports.Component = {
                     } 
 
                     if(
-                        !maze.connects( x, y, "E" ) && y >= 0 
-                        && !(x === -1 && maze.connects(0,y,"W"))
+                        !maze.connects( x, y, "E" ) && y >= 0 && 
+                        !(x === -1 && maze.connects(0,y,"W"))
                     ){
                         // draw east wall
                         if(!this.drawMazeWall({

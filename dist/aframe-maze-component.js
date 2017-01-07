@@ -40,6 +40,7 @@
     Author: Mitch Allen
 */
 
+/*jshint browser: true */
 /*jshint node: true */
 /*jshint esversion: 6 */
 
