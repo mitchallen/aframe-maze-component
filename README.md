@@ -155,6 +155,19 @@ Example maze with only dimensions defined. Generic walls will be created:
     <a-entity id="maze5" 
       maze='size: 4 5;' 
       position='-30 0.5 -5'></a-entity>
+      
+### Adding / Removing Through JavaScript
+
+An example of how to remove and add maze attributes though JavaScript. The target element should be an __a-entity__.
+
+    <script>
+        // how to remove / add a maze attribute through JavaScript
+        document.getElementById("maze1").removeAttribute("maze");
+        document.getElementById("maze1").setAttribute(
+          "maze","size: 4 5; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 3;");
+    </script>
+      
+* * *
 
 ## Testing
 

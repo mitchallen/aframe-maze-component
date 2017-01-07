@@ -60,23 +60,33 @@
           rotation='0 45 0'></a-entity>
 
       <a-entity id="maze3A" 
-          maze='size: 5 6; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 4;' 
+          maze='size: 4 5; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 3;' 
           position='25 0.5 -30'></a-entity>
 
       <a-entity id="maze3B" 
-          maze='size: 5 6; wall: #wall-one-blue; cap: #end-cap 0.4;' 
+          maze='size: 4 5; wall: #wall-one-red; cap: #end-cap 0.4;' 
           position='25 4 -30'></a-entity>
 
-        <a-entity id="maze4" 
+      <a-entity id="maze3C" 
+          maze='size: 4 5; wall: #wall-one; cap: #end-cap 0.4;' 
+          position='25 7.5 -30'></a-entity>
+
+      <a-entity id="maze4" 
           maze='size: 4 5; wall: #wall-one-red; cap: #end-cap;' 
           position='5 0.5 30'></a-entity>
 
-        <a-entity id="maze5" 
+      <a-entity id="maze5" 
           maze='size: 4 5;' 
           position='-30 0.5 -5'></a-entity>
 
       <a-grid id="ground" width="200" height="200" static-body color="#444444"></a-grid>
     </a-scene>
+    <script>
+        // how to remove / add a maze attribute through JavaScript
+        document.getElementById("maze1").removeAttribute("maze");
+        document.getElementById("maze1").setAttribute(
+          "maze","size: 4 5; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 3;");
+    </script>
     <!--
       <script src="js/app.js"></script>
     -->

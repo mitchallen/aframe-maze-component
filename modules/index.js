@@ -125,6 +125,7 @@ module.exports.Component = {
         if(!p) {
            w = document.createElement('a-box'); 
            this.el.appendChild(w);
+           w.setAttribute('class', 'maze-wall' );   // for removal later
            w.setAttribute('color', 'tomato' );
            w.setAttribute('width',  cap ? 1 : this.mazeData.wallWidth );
            w.setAttribute('depth',  cap ? this.mazeData.capHeight : this.mazeData.wallDepth );
@@ -219,5 +220,11 @@ module.exports.Component = {
         }
     },
 
-    remove: function () { }
+    remove: function () { 
+        // This doesn't seem to be needed
+        // var elements = this.el.getElementsByClassName("maze-wall");
+        // while(elements.length > 0){
+        //     this.el.removeChild(elements[0]);
+        // }
+    }
 };
