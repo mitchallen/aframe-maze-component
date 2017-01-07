@@ -16,8 +16,16 @@
     <a-scene>
       <a-assets>
         <img id="texture-wall" src="img/arrow-left.png">
+        <img id="texture-wall-blue" src="img/arrow-left-blue.png">
+        <img id="texture-wall-red" src="img/arrow-left-red.png">
         <a-box id="wall-one" 
           static-body material="src: #texture-wall" 
+          depth="1" width="4" height="1"></a-box>
+        <a-box id="wall-one-blue" 
+          static-body material="src: #texture-wall-blue" 
+          depth="1" width="4" height="1"></a-box>
+        <a-box id="wall-one-red" 
+          static-body material="src: #texture-wall-red" 
           depth="1" width="4" height="1"></a-box>
         <a-cylinder id="end-cap"
           static-body color="#444444" 
@@ -52,16 +60,16 @@
           rotation='0 45 0'></a-entity>
 
       <a-entity id="maze3A" 
-          maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 4;' 
+          maze='size: 5 6; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 4;' 
           position='25 0.5 -30'></a-entity>
 
       <a-entity id="maze3B" 
-          maze='size: 5 6; wall: #wall-one; cap: #end-cap 0.4;' 
+          maze='size: 5 6; wall: #wall-one-blue; cap: #end-cap 0.4;' 
           position='25 4 -30'></a-entity>
 
         <a-entity id="maze4" 
-          maze='size: 4 5; wall: #wall-one; cap: #end-cap;' 
-          position='10 0.5 30'></a-entity>
+          maze='size: 4 5; wall: #wall-one-red; cap: #end-cap;' 
+          position='5 0.5 30'></a-entity>
 
         <a-entity id="maze5" 
           maze='size: 4 5;' 
