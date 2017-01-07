@@ -11,9 +11,17 @@ A component for building VR mazes
   
 * * *
 
-## Browser Usage
+## Browser Usage 
 
-### Example
+### Live Example 
+
+A live example of the component usage in a browser / VR can be found here:
+
+* https://mitchallen.github.io
+
+* * *
+
+### HTML Example
 
 Run this example in a browser. Step off the birds-eye view platform and wander around the maze.
 
@@ -32,6 +40,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
         <a-scene>
           <a-assets>
             <img id="texture-wall" src="img/arrow-left.png">
+            <img id="texture-floor" src="img/floor-texture-1.jpg">
             <a-box id="wall-one" 
               static-body material="src: #texture-wall" 
               depth="1" width="4" height="1"></a-box>
@@ -83,7 +92,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
               maze='size: 4 5;' 
               position='-30 0.5 -5'></a-entity>
 
-          <a-grid id="ground" width="200" height="200" static-body color="#444444"></a-grid>
+          <a-grid id="ground" width="200" height="200" static-body material="src: #texture-floor"></a-grid>
         </a-scene>
       </body>
     </html>
@@ -189,6 +198,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.2
+
+* updated example so physics works in iOS (a-grid must have a material and not just a color)
 
 #### Version 0.1.1 
 
