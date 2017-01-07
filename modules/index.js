@@ -73,8 +73,9 @@ module.exports.Component = {
 
         this.mazeData.capId = capId;
 
-        var c = document.getElementById(capId);
-        this.mazeData.capHeight = (c ? parseFloat(c.getAttribute('height')) : 1.0) + capAdjust;
+        // var c = document.getElementById(capId);
+        // this.mazeData.capHeight = (c ? parseFloat(c.getAttribute('height')) : 1.0) + capAdjust;
+        this.mazeData.capHeight = capAdjust;
     },
 
     buildOpenSpec: function() {
@@ -155,7 +156,7 @@ module.exports.Component = {
                 WALL_DEPTH = this.mazeData.wallDepth,
                 WALL_HEIGHT = this.mazeData.wallHeight,
                 CELL_SIZE = WALL_WIDTH,
-                yPos = WALL_HEIGHT / 2.0;
+                yPos = 0;
 
             var xOffset = (xSize + 1) * WALL_WIDTH / 2.0;
             var yOffset = (ySize + 1) * WALL_WIDTH / 2.0;
@@ -167,10 +168,11 @@ module.exports.Component = {
 
                     // draw end cap
                     if(!this.drawMazeWall({
-                        
+    
                         position: {
                             x: xPos + CELL_SIZE / 2.0,
-                            y: this.mazeData.capHeight / 2.0,
+                            // y: this.mazeData.capHeight / 2.0,
+                            y: this.mazeData.capHeight,
                             z: zPos + CELL_SIZE / 2.0
                         },
                         cap: true

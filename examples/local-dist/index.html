@@ -11,14 +11,10 @@
       <script src="../../dist/aframe-maze-component.min.js"></script> 
     -->
     <script src="../../dist/aframe-maze-component.js"></script>
-    <script> 
- 
-    </script>
   </head>
   <body>
     <a-scene>
       <a-assets>
-        <img id="texture-floor" src="img/floor-texture-1.jpg">
         <img id="texture-wall" src="img/arrow-left.png">
         <a-box id="wall-one" 
           static-body material="src: #texture-wall" 
@@ -47,20 +43,19 @@
 
       <a-entity id="maze1" 
           maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 1 2 4 E 5;' 
-          position='0 0 0'></a-entity>
+          position='0 0.5 0'></a-entity>
 
       <a-entity id="maze2" 
           maze='size: 7 3; wall: #wall-one; cap: #end-cap; open: W 2 N 2 6;' 
-          position='30 0 0'></a-entity>
+          position='30 0.5 0'></a-entity>
 
       <a-entity id="maze3A" 
           maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 4;' 
-          position='25 0 -30'></a-entity>
+          position='25 0.5 -30'></a-entity>
 
       <a-entity id="maze3B" 
-          maze='size: 5 6; wall: #wall-one; cap: #end-cap -0.1;' 
+          maze='size: 5 6; wall: #wall-one; cap: #end-cap 0.4;' 
           position='25 4 -30'></a-entity>
-      -->
 
       <a-grid id="ground" width="200" height="200" static-body color="#444444"></a-grid>
     </a-scene>
