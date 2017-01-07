@@ -26,10 +26,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
         <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
         <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.2.0/dist/aframe-extras.min.js"></script>
         <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script> 
-        <!-- 
-      <script src="../../dist/aframe-maze-component.min.js"></script> 
-        -->
-        <script src="../../dist/aframe-maze-component.js"></script>
+        <script src="https://unpkg.com/aframe-maze-component@0.1.1/dist/aframe-maze-component.min.js"></script>
       </head>
       <body>
         <a-scene>
@@ -192,6 +189,12 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.1 
+
+* removed dist from .npmignore
+* added cdn distribution example
+
 
 #### Version 0.1.0 
 
