@@ -9,6 +9,7 @@
 var request = require('supertest'),
     should = require('should'),
     modulePath = "../dist/aframe-maze-component";
+    // modulePath = "../modules/index";
 
 describe('module factory smoke test', () => {
 

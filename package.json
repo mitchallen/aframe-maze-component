@@ -4,13 +4,12 @@
   "description": "aframe maze component",
   "main": "modules/index.js",
   "scripts": {
-    "//": "To use: npm run test-nodemon (assumes global location of mocha)",
+    "//": "Usage:> [PORT=8002] npm run web-server",
     "start": "node index.js",
-    "test": "mocha --recursive --timeout 20000",
+    "test": "grunt && mocha --recursive --timeout 20000",
     "test-nodemon": "nodemon /usr/local/bin/mocha --timeout 5000",
     "test-debug": "nodemon /usr/local/bin/mocha -g '@DEBUG' --recursive --timeout 20000",
-    "test-jenkins": "mocha --recursive --timeout 20000 -R xunit test/ > test-reports.xml",
-    "//": "Usage:> [PORT=8002] npm run web-server",
+    "test-jenkins": "grunt && mocha --recursive --timeout 20000 -R xunit test/ > test-reports.xml",
     "web-server": "python -m SimpleHTTPServer $PORT || 8000"
   },
   "repository": {
