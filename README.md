@@ -19,6 +19,12 @@ A live example of the component usage in a browser / VR can be found here:
 
 * https://mitchallen.github.io
 
+Demo notes:
+
+* works fine in Chrome on a Mac
+* having issues with player falling through floor on iOS 
+* on Windows 10 machine (Lenovo Yoga 710 laptop) can't seem to walk and turn at the same time
+
 * * *
 
 ### HTML Example
@@ -187,6 +193,7 @@ To test, go to the root folder and type (sans __$__):
 
 * [bitbucket.org/mitchallen/aframe-maze-component.git](https://bitbucket.org/mitchallen/aframe-maze-component.git)
 * [github.com/mitchallen/aframe-maze-component.git](https://github.com/mitchallen/aframe-maze-component.git)
+* [gitlab.com/mitchallen/aframe-maze-component](https://gitlab.com/mitchallen/aframe-maze-component) (append __.git__ for cloning)
 
 * * *
 
