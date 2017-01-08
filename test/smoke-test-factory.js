@@ -1,6 +1,6 @@
 /**
     Module: @mitchallen/aframe-maze-component
-      Test: smoke-test-factory
+      Test: smoke-test
     Author: Mitch Allen
 */
 
@@ -8,7 +8,7 @@
 
 var request = require('supertest'),
     should = require('should'),
-    modulePath = "../index-factory";
+    modulePath = "../dist/aframe-maze-component";
 
 describe('module factory smoke test', () => {
 
@@ -40,23 +40,4 @@ describe('module factory smoke test', () => {
         should.exist(_factory);
         done();
     })
-
-    it('create method with no spec should return null', done => {
-        var obj = _factory.create();
-        should.not.exist(obj);
-        done();
-    });
-
-    it('create method with spec should return object', done => {
-        var obj = _factory.create({});
-        should.exist(obj);
-        done();
-    });
-
-    it('health method should return ok', done => {
-        var obj = _factory.create({});
-        should.exist(obj);
-        obj.health().should.eql("OK");
-        done();
-    });
 });
