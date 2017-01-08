@@ -11,6 +11,8 @@ A component for building VR mazes
   
 * * *
 
+<img src="https://cdn.rawgit.com/mitchallen/aframe-maze-component/d541efc/examples/gif/aframe-maze-clip1.gif" width="500" />
+
 ## Browser Usage 
 
 ### Live Example 
@@ -102,6 +104,12 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
         </a-scene>
       </body>
     </html>
+    
+### Include Script
+
+Include the latest script. Update the @version in the URL as needed:
+
+    <script src="https://unpkg.com/aframe-maze-component@0.1.3/dist/aframe-maze-component.min.js"></script>
     
 ### Define Assets
 
@@ -206,15 +214,20 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.3
+
+* updated doc with notes about running under iOS
+* added section on cdn script usage
+* added example gif image
+
 #### Version 0.1.2
 
-* updated example so physics works in iOS (a-grid must have a material and not just a color)
+* updated example 
 
 #### Version 0.1.1 
 
 * removed dist from .npmignore
 * added cdn distribution example
-
 
 #### Version 0.1.0 
 
