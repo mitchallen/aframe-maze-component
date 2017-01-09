@@ -17,15 +17,17 @@ A component for building VR mazes
 
 ### Live Example 
 
-A live example of the component usage in a browser / VR can be found here:
+Here are some live examples of the component. The simpler demo is ideal for mobile. 
 
-* https://mitchallen.github.io
+* https://mitchallen.github.io - best viewed in Chrome
+* https://mitchallen.github.io/stats.html - Chrome demo displaying stats 
+* https://mitchallen.github.io/simple.html - simpler demo for mobile
 
 Demo notes:
 
-* works fine in Chrome on a Mac
-* having issues with player falling through floor on iOS 
-* on Windows 10 machine (Lenovo Yoga 710 laptop) can't seem to walk and turn at the same time
+* Works fine in Chrome on a Mac
+* Having issues with player falling through floor on iOS for complex demos (keep it simple on mobile)
+* On Windows 10 machine (Lenovo Yoga 710 laptop) can't seem to walk and turn at the same time
 
 * * *
 
@@ -42,7 +44,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
         <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
         <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.2.0/dist/aframe-extras.min.js"></script>
         <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script> 
-        <script src="https://unpkg.com/aframe-maze-component@0.1.1/dist/aframe-maze-component.min.js"></script>
+        <script src="https://unpkg.com/aframe-maze-component@0.1.4/dist/aframe-maze-component.min.js"></script>
       </head>
       <body>
         <a-scene>
@@ -109,7 +111,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
 
 Include the latest script. Update the @version in the URL as needed:
 
-    <script src="https://unpkg.com/aframe-maze-component@0.1.3/dist/aframe-maze-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-maze-component@0.1.4/dist/aframe-maze-component.min.js"></script>
     
 ### Define Assets
 
@@ -164,10 +166,10 @@ A maze with open walls:
         maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 1 2 4 E 5;' 
         position='0 0.5 0'></a-entity>
         
-Example with cap adjustment (cap: #end-cap __-0.1__;'). This is useful in cases where the maze is above the player. It prevents the bottoms of the walls and caps from battling to display in the same space. It's most evident when the player is walking under the maze. This moves the two bottoms away from each other.
+Example with cap adjustment (cap: #end-cap __0.4__;'). This is useful in cases where the maze is above the player. It prevents the bottoms of the walls and caps from battling to display in the same space. It's most evident when the player is walking under the maze. This moves the two bottoms away from each other.
           
     <a-entity id="maze3B" 
-        maze='size: 5 6; wall: #wall-one; cap: #end-cap -0.1;' 
+        maze='size: 5 6; wall: #wall-one; cap: #end-cap 0.4;' 
         position='25 4 -30'></a-entity>
         
 Example maze with only dimensions defined. Generic walls will be created:
@@ -213,6 +215,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.4
+
+* no longer draws default end caps if none are defined
 
 #### Version 0.1.3
 

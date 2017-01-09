@@ -16,7 +16,7 @@
 var mazeFactory = require('@mitchallen/maze-generator-square');
 
 var maze = null;
-
+ 
 module.exports.Component = {
     
     dependencies: ['position', 'rotation'],
@@ -73,8 +73,6 @@ module.exports.Component = {
 
         this.mazeData.capId = capId;
 
-        // var c = document.getElementById(capId);
-        // this.mazeData.capHeight = (c ? parseFloat(c.getAttribute('height')) : 1.0) + capAdjust;
         this.mazeData.capHeight = capAdjust;
     },
 
@@ -114,7 +112,7 @@ module.exports.Component = {
             wallId = cap ? this.mazeData.capId : this.data.wall;
 
         wallId = wallId[0] == '#' ? wallId.substring(1) : wallId;
-
+ 
         if(!position) {
             console.error("drawMazeWall requires position");
             return false;
@@ -123,17 +121,19 @@ module.exports.Component = {
         var w = null;
         var p = document.getElementById(wallId);
         if(!p) {
-           w = document.createElement('a-box'); 
-           this.el.appendChild(w);
-           w.setAttribute('class', 'maze-wall' );   // for removal later
-           w.setAttribute('color', 'tomato' );
-           w.setAttribute('width',  cap ? 1 : this.mazeData.wallWidth );
-           w.setAttribute('depth',  cap ? this.mazeData.capHeight : this.mazeData.wallDepth );
-           w.setAttribute('height', cap ? 1 : this.mazeData.wallHeight );
-           w.setAttribute('static-body', '');
+            if(cap) {
+                return true;
+            }
+            w = document.createElement('a-box'); 
+            this.el.appendChild(w);
+            w.setAttribute('color', 'tomato' );
+            w.setAttribute('width',  this.mazeData.wallWidth );
+            w.setAttribute('depth',  this.mazeData.wallDepth );
+            w.setAttribute('height', this.mazeData.wallHeight );
+            w.setAttribute('static-body', '');
         } else {
-           w = p.cloneNode(true);
-           this.el.appendChild(w);
+            w = p.cloneNode(true);
+            this.el.appendChild(w);
         }
         w.setAttribute('rotation', rotation);
         w.setAttribute('position', position);
@@ -164,6 +164,7 @@ module.exports.Component = {
 
             for(var y = -1; y < ySize; y++) {
                 for(var x = -1; x < xSize; x++) {
+
                     var xPos = xOffset + (x-xSize)*WALL_WIDTH,
                         zPos = yOffset + (y-ySize)*WALL_WIDTH;
 
@@ -221,10 +222,5 @@ module.exports.Component = {
     },
 
     remove: function () { 
-        // This doesn't seem to be needed
-        // var elements = this.el.getElementsByClassName("maze-wall");
-        // while(elements.length > 0){
-        //     this.el.removeChild(elements[0]);
-        // }
     }
 };
