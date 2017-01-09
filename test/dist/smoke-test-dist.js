@@ -1,6 +1,6 @@
 /**
     Module: @mitchallen/aframe-maze-component
-      Test: smoke-test
+      Test: smoke-test-dist
     Author: Mitch Allen
 */
 
@@ -8,17 +8,16 @@
 
 var request = require('supertest'),
     should = require('should'),
-    modulePath = "../dist/aframe-maze-component";
-    // modulePath = "../modules/index";
+    modulePath = "../../dist/aframe-maze-component";
 
-describe('module factory smoke test', () => {
+describe('dist smoke test', () => {
 
-    var _factory = null;
+    var script = null;
 
     before( done => {
         // Call before all tests
         delete require.cache[require.resolve(modulePath)];
-        _factory = require(modulePath);
+        script = require(modulePath);
         done();
     });
 
@@ -37,8 +36,8 @@ describe('module factory smoke test', () => {
         done();
     });
 
-    it('module should exist', done => {
-        should.exist(_factory);
+    it('script should exist', done => {
+        should.exist(script);
         done();
     })
 });
