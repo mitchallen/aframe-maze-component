@@ -281,6 +281,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.5
+
+* updated documentation, test files and examples (no core changes)
+
 #### Version 0.1.4
 
 * no longer draws default end caps if none are defined
