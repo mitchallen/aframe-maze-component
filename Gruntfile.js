@@ -82,5 +82,6 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['build']);
     grunt.registerTask("build", ['jshint','browserify','uglify']);
     grunt.registerTask('pubinit', ['jshint','browserify','uglify','shell:pubinit']);
-    grunt.registerTask('publish', ['jshint','browserify','uglify','bump','shell:publish']);
+    grunt.registerTask('publish',  ['jshint','browserify','uglify','bump','shell:publish']);
+    grunt.registerTask('pubminor', ['jshint','browserify','uglify','bump:minor','shell:publish']);
 };
