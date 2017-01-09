@@ -268,7 +268,6 @@ To test, go to the root folder and type (sans __$__):
 
 * [bitbucket.org/mitchallen/aframe-maze-component.git](https://bitbucket.org/mitchallen/aframe-maze-component.git)
 * [github.com/mitchallen/aframe-maze-component.git](https://github.com/mitchallen/aframe-maze-component.git)
-* [gitlab.com/mitchallen/aframe-maze-component](https://gitlab.com/mitchallen/aframe-maze-component) (append __.git__ for cloning)
 
 * * *
 
