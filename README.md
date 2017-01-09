@@ -3,13 +3,6 @@ aframe-maze-component
 ==
 A component for building VR mazes
 --
-* * *
-## NPM Installation
-
-    $ npm init
-    $ npm install aframe-maze-component --save
-  
-* * *
 
 <img src="https://cdn.rawgit.com/mitchallen/aframe-maze-component/d541efc/examples/gif/aframe-maze-clip1.gif" width="500" />
 
@@ -188,6 +181,78 @@ An example of how to remove and add maze attributes though JavaScript. The targe
         document.getElementById("maze1").setAttribute(
           "maze","size: 4 5; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 3;");
     </script>
+    
+* * *
+
+## NPM Installation
+
+The module should be converted for client use using [browserify](http://browserify.org/):
+
+    $ npm init
+    $ npm install aframe-maze-component --save
+    
+### Browserify Example
+
+Below is an example of requiring the module within a file to be passed to browserify.
+
+The modules named export, __Component__, should be passed to __AFRAME.aframeCore.registerComponent__:
+
+    // Browser distribution of the A-Frame component.
+    (function () {
+      if (typeof AFRAME === 'undefined') {
+        console.error('Component attempted to register before AFRAME was available.');
+        return;
+      }
+
+      var maze = require('aframe-maze-component');
+
+      // Register all components here.
+      var components = {
+        "maze": maze.Component
+      };
+
+      var primitives = {
+      };
+
+      Object.keys(components).forEach(function (name) {
+        if (AFRAME.aframeCore) {
+          AFRAME.aframeCore.registerComponent(name, components[name]);
+        } else {
+          AFRAME.registerComponent(name, components[name]);
+        }
+      });
+
+      Object.keys(primitives).forEach(function (name) {
+        if (AFRAME.aframeCore) {
+          AFRAME.aframeCore.registerPrimitive(name, primitives[name]);
+        } else {
+          AFRAME.registerPrimitive(name, primitives[name]);
+        }
+      });
+
+    })();
+    
+### Build with grunt
+
+Use a [grunt](http://gruntjs.com/) task to build the distribution file:
+
+    browserify: {
+        dist: {
+            options: {
+                browserifyOptions: {
+                    // ...
+                },
+                transform: [['babelify', {presets: ['es2015']}]],
+                    plugin: [[ "browserify-derequire" ]]
+                },
+            files: {
+               // substitute your component name for the distribution file
+               "./dist/YOUR-COMPONENT.js": ["./browser.js"]
+            }
+        }
+    },
+    
+For more information, review the __Gruntfile.js__ and __package.json__ files in the root of this projects source code.
       
 * * *
 
