@@ -41,7 +41,11 @@ module.exports.Component = {
    
         this.mazeData = {};
 
-        var p = document.getElementById(this.data.wall);
+        var wallId = this.data.wall;
+            
+        wallId = wallId[0] == '#' ? wallId.substring(1) : wallId;
+
+        var p = document.getElementById(wallId);
         if(p) {
             this.mazeData.wallWidth = p.getAttribute("width");
             this.mazeData.wallDepth = p.getAttribute("depth");
