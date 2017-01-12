@@ -6,6 +6,16 @@ A component for building VR mazes
 
 <img src="https://cdn.rawgit.com/mitchallen/aframe-maze-component/d541efc/examples/gif/aframe-maze-clip1.gif" width="500" />
 
+<a href="https://npmjs.org/package/aframe-maze-component">
+    <img src="http://img.shields.io/npm/dt/aframe-maze-component.svg?style=flat-square" alt="Downloads">
+</a>
+<a href="https://npmjs.org/package/aframe">
+    <img src="http://img.shields.io/npm/v/aframe-maze-component.svg?style=flat-square" alt="Version">
+</a>
+<a href="https://npmjs.com/package/aframe">
+    <img src="https://img.shields.io/npm/l/aframe-maze-component.svg?style=flat-square" alt="License"></a>
+</a>
+
 ## Browser Usage 
 
 ### Live Example 
