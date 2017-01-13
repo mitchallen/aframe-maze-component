@@ -4,8 +4,11 @@ aframe-maze-component
 A component for building VR mazes
 --
 
+<p align="left">
 <img src="https://cdn.rawgit.com/mitchallen/aframe-maze-component/d541efc/examples/gif/aframe-maze-clip1.gif" width="500" />
+</p>
 
+<p align="left">
 <a href="https://npmjs.org/package/aframe-maze-component">
     <img src="http://img.shields.io/npm/dt/aframe-maze-component.svg?style=flat-square" alt="Downloads">
 </a>
@@ -15,6 +18,7 @@ A component for building VR mazes
 <a href="https://npmjs.com/package/aframe-maze-component">
     <img src="https://img.shields.io/npm/l/aframe-maze-component.svg?style=flat-square" alt="License"></a>
 </a>
+</p>
 
 ## Browser Usage 
 
@@ -47,7 +51,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
         <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
         <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.2.0/dist/aframe-extras.min.js"></script>
         <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script> 
-        <script src="https://unpkg.com/aframe-maze-component@0.1.7/dist/aframe-maze-component.min.js"></script>
+        <script src="https://unpkg.com/aframe-maze-component@0.1.8/dist/aframe-maze-component.min.js"></script>
       </head>
       <body>
         <a-scene>
@@ -114,7 +118,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
 
 Include the latest script. Update the @version in the URL as needed:
 
-    <script src="https://unpkg.com/aframe-maze-component@0.1.7/dist/aframe-maze-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-maze-component@0.1.8/dist/aframe-maze-component.min.js"></script>
     
 ### Define Assets
 
@@ -289,6 +293,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.8
+
+* fixed readme formatting issue
 
 #### Version 0.1.7
 
