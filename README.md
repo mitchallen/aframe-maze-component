@@ -9,10 +9,10 @@ A component for building VR mazes
 <a href="https://npmjs.org/package/aframe-maze-component">
     <img src="http://img.shields.io/npm/dt/aframe-maze-component.svg?style=flat-square" alt="Downloads">
 </a>
-<a href="https://npmjs.org/package/aframe">
+<a href="https://npmjs.org/package/aframe-maze-component">
     <img src="http://img.shields.io/npm/v/aframe-maze-component.svg?style=flat-square" alt="Version">
 </a>
-<a href="https://npmjs.com/package/aframe">
+<a href="https://npmjs.com/package/aframe-maze-component">
     <img src="https://img.shields.io/npm/l/aframe-maze-component.svg?style=flat-square" alt="License"></a>
 </a>
 
