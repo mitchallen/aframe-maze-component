@@ -290,6 +290,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.7
+
+* changed license from ISC to MIT and added LICENSE file
+
 #### Version 0.1.6
 
 * fixed bug where init wasn't trimming '#' from wall id, resulting in 100% failed doc queries

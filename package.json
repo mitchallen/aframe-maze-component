@@ -17,7 +17,7 @@
     "url": "https://github.com/mitchallen/aframe-maze-component.git"
   },
   "author": "Mitch Allen <npm@mitchallen.com> (http://mitchallen.com)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@mitchallen/maze-generator-square": "^0.1.10"
   },
