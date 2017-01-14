@@ -8,6 +8,7 @@
 
 var request = require('supertest'),
     should = require('should'),
+    documentFactory = require("../lib/mock-document"),
     modulePath = "../../modules/index";
 
 describe('module smoke test', () => {
@@ -19,26 +20,9 @@ describe('module smoke test', () => {
     before( done => {
         // Call before all tests
 
-        // mock browser element / document
+        // mock browser document
 
-        var element = {
-            setAttribute: function(a) {},
-        };
-
-        global.document = {
-            querySelector: function () { return null; },
-            getElementById: function (id) { return id === "found" ? {
-                getAttribute: function(name) {
-                    return {};
-                },
-                cloneNode: function(flag) {
-                    return element;
-                },
-            } : null; },
-            createElement: function(id) {
-                return element;
-            }
-        };
+        global.document = documentFactory.create();
 
         done();
     });
