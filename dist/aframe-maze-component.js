@@ -146,17 +146,12 @@ module.exports.Component = {
     drawMazeWall: function drawMazeWall(spec) {
 
         spec = spec || {};
-        var position = spec.position,
+        var position = spec.position || { x: 0, y: 0, z: 0 },
             rotation = spec.rotation || { x: 0, y: 0, z: 0 },
             cap = spec.cap || false,
             wallId = cap ? this.mazeData.capId : this.data.wall;
 
         wallId = wallId[0] == '#' ? wallId.substring(1) : wallId;
-
-        if (!position) {
-            console.error("drawMazeWall requires position");
-            return false;
-        }
 
         var w = null;
         var p = document.getElementById(wallId);
@@ -177,8 +172,6 @@ module.exports.Component = {
         }
         w.setAttribute('rotation', rotation);
         w.setAttribute('position', position);
-
-        return true;
     },
 
     update: function update() {
@@ -211,7 +204,7 @@ module.exports.Component = {
                         zPos = yOffset + (y - ySize) * WALL_WIDTH;
 
                     // draw end cap
-                    if (!this.drawMazeWall({
+                    this.drawMazeWall({
 
                         position: {
                             x: xPos + CELL_SIZE / 2.0,
@@ -220,36 +213,30 @@ module.exports.Component = {
                             z: zPos + CELL_SIZE / 2.0
                         },
                         cap: true
-                    })) {
-                        return;
-                    }
+                    });
 
                     if (!maze.connects(x, y, "S") && x >= 0 && !(y === -1 && maze.connects(x, 0, "N"))) {
                         // draw south wall
 
-                        if (!this.drawMazeWall({
+                        this.drawMazeWall({
                             position: {
                                 x: xPos,
                                 y: yPos,
                                 z: zPos + CELL_SIZE / 2
                             }
-                        })) {
-                            return;
-                        }
+                        });
                     }
 
                     if (!maze.connects(x, y, "E") && y >= 0 && !(x === -1 && maze.connects(0, y, "W"))) {
                         // draw east wall
-                        if (!this.drawMazeWall({
+                        this.drawMazeWall({
                             position: {
                                 x: xPos + CELL_SIZE / 2,
                                 y: yPos,
                                 z: zPos
                             },
                             rotation: { x: 0, y: 90, z: 0 }
-                        })) {
-                            return;
-                        }
+                        });
                     }
                 }
             }

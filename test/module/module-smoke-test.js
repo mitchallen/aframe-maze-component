@@ -21,18 +21,24 @@ describe('module smoke test', () => {
         delete require.cache[require.resolve(modulePath)];
         module = require(modulePath);
 
-        // mock browser document
+        // mock browser element / document
+
+        var element = {
+            setAttribute: function(a) {},
+        };
+
         global.document = {
             querySelector: function () { return null; },
             getElementById: function (id) { return id === "found" ? {
                 getAttribute: function(name) {
                     return {};
-                }
+                },
+                cloneNode: function(flag) {
+                    return element;
+                },
             } : null; },
             createElement: function(id) {
-                return {
-                    setAttribute: function(a) {},
-                };
+                return element;
             }
         };
 
@@ -92,64 +98,71 @@ describe('module smoke test', () => {
         done();
     })
 
-    it('component init should succeed', done => { 
-        // console.log(component.data);     
+    it('component init should succeed', done => {      
         component.init();
         done();
     })
 
     it('component init should succeed for found wall element', done => { 
-        // console.log(component.data); 
         component.data.wall = "found";    
         component.init();
         done();
     })
 
     it('component init should succeed for found wall element with pound sign starting name', done => { 
-        // console.log(component.data); 
         component.data.wall = "#found";    
         component.init();
         done();
     })
 
     it('component init should succeed for found cap element', done => { 
-        // console.log(component.data); 
         component.data.cap = "found";    
         component.init();
         done();
     })
 
-    it('component init should succeed for found cap element with pound sign starting name', done => { 
-        // console.log(component.data); 
+    it('component init should succeed for found cap element with pound sign starting name', done => {  
         component.data.cap = "#found";    
         component.init();
         done();
     })
 
     it('component init should succeed for found cap element with adjustment', done => { 
-        // console.log(component.data); 
         component.data.cap = "found 0.4";    
         component.init();
         done();
     })
 
     it('component init should succeed for open data', done => { 
-        // console.log(component.data); 
         component.data.open = "N 0";    
         component.init();
         done();
     })
 
-    it('component update should succeed', done => { 
-        // console.log(component.data);     
+    it('component update should succeed', done => {     
         component.update();
         done();
     })
 
     it('component update should succeed if enabled = false', done => { 
-        // console.log(component.data);
         component.data.enabled = false;     
         component.update();
+        done();
+    })
+
+    it('component update with valid wall id should succeed', done => { 
+        component.data.wall = "#found";    
+        component.update();
+        done();
+    })
+
+    it('drawMazeWall with no spec should succeed', done => {     
+        component.drawMazeWall();
+        done();
+    })
+
+    it('remove should succeed', done => {     
+        component.remove();
         done();
     })
 });
