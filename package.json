@@ -7,9 +7,11 @@
     "//": "Usage:> [PORT=8002] npm run web-server",
     "start": "node index.js",
     "test": "grunt && mocha --recursive --timeout 20000",
+    "test-coverage": "./node_modules/.bin/istanbul cover _mocha -- -R spec test/**/*",
     "test-nodemon": "nodemon /usr/local/bin/mocha --timeout 5000",
     "test-debug": "nodemon /usr/local/bin/mocha -g '@DEBUG' --recursive --timeout 20000",
     "test-jenkins": "grunt && mocha --recursive --timeout 20000 -R xunit test/ > test-reports.xml",
+    "//": "Usage:> [PORT=8002] npm run web-server",
     "web-server": "python -m SimpleHTTPServer $PORT || 8000"
   },
   "repository": {
@@ -19,7 +21,7 @@
   "author": "Mitch Allen <npm@mitchallen.com> (http://mitchallen.com)",
   "license": "MIT",
   "dependencies": {
-    "@mitchallen/maze-generator-square": "^0.1.10"
+    "@mitchallen/maze-generator-square": "^0.1.12"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.18.0",
@@ -32,6 +34,8 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-shell": "^1.3.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
     "should": "^10.0.0",
     "supertest": "^2.0.0"
   }
