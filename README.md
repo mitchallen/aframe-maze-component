@@ -9,15 +9,21 @@ A component for building VR mazes
 </p>
 
 <p align="left">
-<a href="https://npmjs.org/package/aframe-maze-component">
+  <a href="https://travis-ci.org/mitchallen/aframe-maze-component">
+    <img src="https://img.shields.io/travis/mitchallen/aframe-maze-component.svg?style=flat-square" alt="Version">
+  </a>
+  <a href="https://codecov.io/gh/mitchallen/aframe-maze-component">
+    <img src="https://codecov.io/gh/mitchallen/aframe-maze-component/branch/master/graph/badge.svg" alt="Coverage Status">
+  </a>
+  <a href="https://npmjs.org/package/aframe-maze-component">
     <img src="http://img.shields.io/npm/dt/aframe-maze-component.svg?style=flat-square" alt="Downloads">
-</a>
-<a href="https://npmjs.org/package/aframe-maze-component">
+  </a>
+  <a href="https://npmjs.org/package/aframe-maze-component">
     <img src="http://img.shields.io/npm/v/aframe-maze-component.svg?style=flat-square" alt="Version">
-</a>
-<a href="https://npmjs.com/package/aframe-maze-component">
+  </a>
+  <a href="https://npmjs.com/package/aframe-maze-component">
     <img src="https://img.shields.io/npm/l/aframe-maze-component.svg?style=flat-square" alt="License"></a>
-</a>
+  </a>
 </p>
 
 ## Browser Usage 
@@ -297,6 +303,7 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 #### Version 0.1.9
 
 * updated dependency
+* integrated with travis-ci and codecov.io
 
 #### Version 0.1.8
 
