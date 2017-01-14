@@ -24,11 +24,16 @@ describe('module smoke test', () => {
         // mock browser document
         global.document = {
             querySelector: function () { return null; },
-            getElementById: function (id) { return id == "found" ? {
+            getElementById: function (id) { return id === "found" ? {
                 getAttribute: function(name) {
                     return {};
                 }
             } : null; },
+            createElement: function(id) {
+                return {
+                    setAttribute: function(a) {},
+                };
+            }
         };
 
         done();
@@ -45,10 +50,27 @@ describe('module smoke test', () => {
     beforeEach( done => {
         // Call before each test
         component = module.Component;
+        component.el = {
+            appendChild: function(el) {},
+        }
         component.data = {};
         // copy defaults from schema
         for(var k in component.schema) {
-            component.data[k]=component.schema[k].default;
+            var cType = component.schema[k].type;
+            switch(cType) {
+                case 'vec2':
+                    var token = component.schema[k].default.split(',');
+                    if( token.length != 2 ) {
+                        throw new Error( k, "should contain two parameters ('x y')");
+                    }
+                    component.data[k] = {};
+                    component.data[k].x = parseInt(token[0]);
+                    component.data[k].y = parseInt(token[1]);
+                    break;
+                default:
+                    component.data[k] = component.schema[k].default;
+                    break;
+            }
         } 
         done();
     });
@@ -118,13 +140,13 @@ describe('module smoke test', () => {
         done();
     })
 
-    it('component update should succeed if enabled = false', done => { 
+    it('component update should succeed', done => { 
         // console.log(component.data);     
         component.update();
         done();
     })
 
-    it('component update should succeed', done => { 
+    it('component update should succeed if enabled = false', done => { 
         // console.log(component.data);
         component.data.enabled = false;     
         component.update();
