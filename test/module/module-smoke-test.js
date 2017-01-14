@@ -18,8 +18,6 @@ describe('module smoke test', () => {
 
     before( done => {
         // Call before all tests
-        delete require.cache[require.resolve(modulePath)];
-        module = require(modulePath);
 
         // mock browser element / document
 
@@ -55,6 +53,9 @@ describe('module smoke test', () => {
 
     beforeEach( done => {
         // Call before each test
+        delete require.cache[require.resolve(modulePath)];
+        module = require(modulePath);
+
         component = module.Component;
         component.el = {
             appendChild: function(el) {},
@@ -139,24 +140,28 @@ describe('module smoke test', () => {
         done();
     })
 
-    it('component update should succeed', done => {     
+    it('component update should succeed', done => {   
+        component.init();  
         component.update();
         done();
     })
 
     it('component update should succeed if enabled = false', done => { 
+        component.init();
         component.data.enabled = false;     
         component.update();
         done();
     })
 
-    it('component update with valid wall id should succeed', done => { 
+    it('component update with valid wall id should succeed', done => {
+        component.init(); 
         component.data.wall = "#found";    
         component.update();
         done();
     })
 
-    it('drawMazeWall with no spec should succeed', done => {     
+    it('drawMazeWall with no spec should succeed', done => { 
+        component.init();    
         component.drawMazeWall();
         done();
     })
