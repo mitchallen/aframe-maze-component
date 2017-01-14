@@ -160,6 +160,48 @@ describe('module smoke test', () => {
         done();
     })
 
+    it('component update should succeed for found wall element', done => { 
+        component.data.wall = "found";    
+        component.init();
+        component.update();
+        done();
+    })
+
+    it('component update should succeed for found wall element with pound sign starting name', done => { 
+        component.data.wall = "#found";    
+        component.init();
+        component.update();
+        done();
+    })
+
+    it('component update should succeed for found cap element', done => { 
+        component.data.cap = "found";    
+        component.init();
+        component.update();
+        done();
+    })
+
+    it('component update should succeed for found cap element with pound sign starting name', done => {  
+        component.data.cap = "#found";    
+        component.init();
+        component.update();
+        done();
+    })
+
+    it('component update should succeed for found cap element with adjustment', done => { 
+        component.data.cap = "found 0.4";    
+        component.init();
+        component.update();
+        done();
+    })
+
+    it('component update should succeed for open data', done => { 
+        component.data.open = "N 0";    
+        component.init();
+        component.update();
+        done();
+    })
+
     it('drawMazeWall with no spec should succeed', done => { 
         component.init();    
         component.drawMazeWall();
@@ -167,6 +209,19 @@ describe('module smoke test', () => {
     })
 
     it('remove should succeed', done => {     
+        component.remove();
+        done();
+    })
+
+    it('remove after init should succeed', done => {  
+        component.init();   
+        component.remove();
+        done();
+    })
+
+    it('remove after update should succeed', done => {  
+        component.init(); 
+        component.update();  
         component.remove();
         done();
     })
