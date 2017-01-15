@@ -300,6 +300,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.11
+
+* tests now use mockbot-document for simulating the browser document
+
 #### Version 0.1.10
 
 * updated code coverage to 100%
