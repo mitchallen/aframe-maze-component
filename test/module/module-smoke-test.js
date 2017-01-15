@@ -8,7 +8,7 @@
 
 var request = require('supertest'),
     should = require('should'),
-    documentFactory = require("../lib/mock-document"),
+    documentFactory = require("mockbot-document"),
     modulePath = "../../modules/index";
 
 describe('module smoke test', () => {
