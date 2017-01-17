@@ -7,6 +7,8 @@
 
   var maze = require('./modules/index');
 
+  console.log( maze.Component.name() + ": " + maze.Component.version() );
+
   // Register all components here.
   var components = {
     "maze": maze.Component

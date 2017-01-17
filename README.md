@@ -57,7 +57,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
         <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
         <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.2.0/dist/aframe-extras.min.js"></script>
         <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script> 
-        <script src="https://unpkg.com/aframe-maze-component@0.1.10/dist/aframe-maze-component.min.js"></script>
+        <script src="https://unpkg.com/aframe-maze-component@0.1.14/dist/aframe-maze-component.min.js"></script>
       </head>
       <body>
         <a-scene>
@@ -124,7 +124,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
 
 Include the latest script. Update the @version in the URL as needed:
 
-    <script src="https://unpkg.com/aframe-maze-component@0.1.10/dist/aframe-maze-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-maze-component@0.1.14/dist/aframe-maze-component.min.js"></script>
     
 ### Define Assets
 
@@ -299,6 +299,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.14
+
+* package name and version now echoed to console on browser.js load
 
 #### Version 0.1.13
 

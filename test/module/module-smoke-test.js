@@ -79,10 +79,27 @@ describe('module smoke test', () => {
         done();
     })
 
+
     it('Component should return component object', done => {
         should.exist(module);
         var component = module.Component;
         should.exist(component);
+        done();
+    })
+
+    it('component.version should match package version', done => {
+        var component = module.Component;
+        should.exist(component.version);
+        console.log(component.version());
+        component.version().should.eql(require("../../package").version);
+        done();
+    })
+
+    it('component.name should match package name', done => {
+        var component = module.Component;
+        should.exist(component.name);
+        console.log(component.name());
+        component.name().should.eql(require("../../package").name);
         done();
     })
 
@@ -95,9 +112,7 @@ describe('module smoke test', () => {
         var wallId = "wall-one";
         var el = document.getElementById(wallId);
         should.exist(el);
-        console.log(el);
         var w = el.getAttribute("width");
-        console.log("width:", w);
         component.data.wall = wallId;    
         component.init();
         done();

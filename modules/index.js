@@ -16,8 +16,14 @@
 var mazeFactory = require('@mitchallen/maze-generator-square');
 
 var maze = null;
+
+var packageName = require("../package").name,
+    packageVersion = require("../package").version;
  
 module.exports.Component = {
+
+    version: function() { return packageVersion; },
+    name: function() { return packageName; },
     
     dependencies: ['position', 'rotation'],
 
