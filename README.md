@@ -300,6 +300,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.15
+
+* added grunt task to resolve product version issue
+
 #### Version 0.1.14
 
 * package name and version now echoed to console on browser.js load

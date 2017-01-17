@@ -36,6 +36,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mockbot-document": "^0.1.12",
+    "semver": "^5.3.0",
     "should": "^10.0.0",
     "supertest": "^2.0.0"
   }

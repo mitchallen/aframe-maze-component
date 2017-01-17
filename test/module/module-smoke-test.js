@@ -91,7 +91,7 @@ describe('module smoke test', () => {
         var component = module.Component;
         should.exist(component.version);
         console.log(component.version());
-        component.version().should.eql(require("../../package").version);
+        component.version().should.eql(require("../../product-info").version);
         done();
     })
 
@@ -99,7 +99,7 @@ describe('module smoke test', () => {
         var component = module.Component;
         should.exist(component.name);
         console.log(component.name());
-        component.name().should.eql(require("../../package").name);
+        component.name().should.eql(require("../../product-info").name);
         done();
     })
 

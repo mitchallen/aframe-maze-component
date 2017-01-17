@@ -55,8 +55,8 @@ var mazeFactory = _dereq_('@mitchallen/maze-generator-square');
 
 var maze = null;
 
-var packageName = _dereq_("../package").name,
-    packageVersion = _dereq_("../package").version;
+var packageName = _dereq_("../product-info").name,
+    packageVersion = _dereq_("../product-info").version;
 
 module.exports.Component = {
 
@@ -258,7 +258,7 @@ module.exports.Component = {
     remove: function remove() {}
 };
 
-},{"../package":4,"@mitchallen/maze-generator-square":3}],3:[function(_dereq_,module,exports){
+},{"../product-info":4,"@mitchallen/maze-generator-square":3}],3:[function(_dereq_,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.MitchAllen || (g.MitchAllen = {})).MazeGeneratorSquare = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof _dereq_=="function"&&_dereq_;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof _dereq_=="function"&&_dereq_;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 /**
@@ -1350,47 +1350,5 @@ module.exports.create = function (spec) {
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(_dereq_,module,exports){
-module.exports={
-  "name": "aframe-maze-component",
-  "version": "0.1.13",
-  "description": "aframe maze component",
-  "main": "modules/index.js",
-  "scripts": {
-    "//": "Usage:> [PORT=8002] npm run web-server",
-    "start": "node index.js",
-    "test": "grunt && mocha --recursive --timeout 20000",
-    "test-coverage": "./node_modules/.bin/istanbul cover _mocha -- -R spec test/**/*",
-    "test-nodemon": "nodemon /usr/local/bin/mocha --timeout 5000",
-    "test-debug": "nodemon /usr/local/bin/mocha -g '@DEBUG' --recursive --timeout 20000",
-    "test-jenkins": "grunt && mocha --recursive --timeout 20000 -R xunit test/ > test-reports.xml",
-    "web-server": "python -m SimpleHTTPServer $PORT || 8000"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mitchallen/aframe-maze-component.git"
-  },
-  "author": "Mitch Allen <npm@mitchallen.com> (http://mitchallen.com)",
-  "license": "MIT",
-  "dependencies": {
-    "@mitchallen/maze-generator-square": "^0.1.12"
-  },
-  "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "babelify": "^7.3.0",
-    "browserify-derequire": "^0.9.4",
-    "grunt": "^1.0.1",
-    "grunt-browserify": "^5.0.0",
-    "grunt-bump": "^0.8.0",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-uglify": "^2.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-shell": "^1.3.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "mockbot-document": "^0.1.12",
-    "should": "^10.0.0",
-    "supertest": "^2.0.0"
-  }
-}
-
+module.exports={"name":"aframe-maze-component","release":"patch","version":"0.1.15"}
 },{}]},{},[1]);
