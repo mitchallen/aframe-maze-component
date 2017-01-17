@@ -300,6 +300,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.13
+
+* updated mockbot-document dev dependency to 0.1.12
+
 #### Version 0.1.12
 
 * updated mockbot-document dev dependency to 0.1.11

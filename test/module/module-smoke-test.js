@@ -24,6 +24,9 @@ describe('module smoke test', () => {
 
         global.document = documentFactory.create();
 
+        document.mockElement( { tagName: "a-box", id: "wall-one" } );
+        document.mockElement( { tagName: "a-box", id: "cap-one" } );
+
         done();
     });
 
@@ -89,31 +92,37 @@ describe('module smoke test', () => {
     })
 
     it('component init should succeed for found wall element', done => { 
-        component.data.wall = "found";    
+        var wallId = "wall-one";
+        var el = document.getElementById(wallId);
+        should.exist(el);
+        console.log(el);
+        var w = el.getAttribute("width");
+        console.log("width:", w);
+        component.data.wall = wallId;    
         component.init();
         done();
     })
 
     it('component init should succeed for found wall element with pound sign starting name', done => { 
-        component.data.wall = "#found";    
+        component.data.wall = "#wall-one";    
         component.init();
         done();
     })
 
     it('component init should succeed for found cap element', done => { 
-        component.data.cap = "found";    
+        component.data.cap = "cap-one";    
         component.init();
         done();
     })
 
     it('component init should succeed for found cap element with pound sign starting name', done => {  
-        component.data.cap = "#found";    
+        component.data.cap = "#cap-one";    
         component.init();
         done();
     })
 
     it('component init should succeed for found cap element with adjustment', done => { 
-        component.data.cap = "found 0.4";    
+        component.data.cap = "cap-one 0.4";    
         component.init();
         done();
     })
@@ -139,41 +148,41 @@ describe('module smoke test', () => {
 
     it('component update with valid wall id should succeed', done => {
         component.init(); 
-        component.data.wall = "#found";    
+        component.data.wall = "#wall-one";    
         component.update();
         done();
     })
 
     it('component update should succeed for found wall element', done => { 
-        component.data.wall = "found";    
+        component.data.wall = "wall-one";    
         component.init();
         component.update();
         done();
     })
 
     it('component update should succeed for found wall element with pound sign starting name', done => { 
-        component.data.wall = "#found";    
+        component.data.wall = "#wall-one";    
         component.init();
         component.update();
         done();
     })
 
     it('component update should succeed for found cap element', done => { 
-        component.data.cap = "found";    
+        component.data.cap = "cap-one";    
         component.init();
         component.update();
         done();
     })
 
     it('component update should succeed for found cap element with pound sign starting name', done => {  
-        component.data.cap = "#found";    
+        component.data.cap = "#cap-one";    
         component.init();
         component.update();
         done();
     })
 
     it('component update should succeed for found cap element with adjustment', done => { 
-        component.data.cap = "found 0.4";    
+        component.data.cap = "cap-one 0.4";    
         component.init();
         component.update();
         done();
