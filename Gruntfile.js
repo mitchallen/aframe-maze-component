@@ -76,17 +76,10 @@ module.exports = function (grunt) {
              }
         },
 
-        versionfile: {
-            default: {
-                src: ['package.json'],
-                target: ['product-info.json']
-            }
-        },
-
         upcoming: {
             default: {
                 files: {
-                    'package.json': ['version-info.json']
+                    'package.json': ['upcoming-info.json']
                 }
             }
         }
@@ -99,35 +92,8 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-upcoming');
 
-    grunt.registerTask('versionfile', 'A task to write info to a file', function( release ) {
-        var srcFile = "package.json",
-            targetFile = "product-info.json";
-            task = grunt.config('versionfile')[release] || grunt.config('versionfile')['default'];
-        if(task) {
-            srcFile = task.src[0] || srcFile;
-            targetFile = task.target[0] || targetFile;
-        }
-        // grunt.log.writeln( "TASKS:", task );
-        var pkg = grunt.file.readJSON( srcFile );
-        var srcName = pkg.name;
-        var srcVersion = pkg.version;
-        grunt.log.writeln("PACKAGE: " + srcName + ": " + srcVersion );
-        if (arguments.length === 0) {
-            grunt.log.writeln( srcVersion );
-        } else {
-            grunt.log.writeln( release + ": " + srcVersion + ' --> ' + semver.inc( srcVersion, release ) );
-        }
-        var content = JSON.stringify({ 
-            name: pkg.name, 
-            release: release || "current",
-            version: semver.inc( pkg.version, release ) || pkg.version
-        });
-        grunt.log.writeln( "writing: " + targetFile + ":\n" + content );
-        grunt.file.write( targetFile, content );
-    });
-
-    grunt.registerTask('default', ['build']);
-    grunt.registerTask("build", ['versionfile:patch','jshint','browserify','uglify']);
+    grunt.registerTask('default', ['upcoming:patch','build']);
+    grunt.registerTask("build",   ['jshint','browserify','uglify']);
     grunt.registerTask('pubinit', ['build','shell:pubinit']);
-    grunt.registerTask('publish',  ['build','bump','shell:publish']);
+    grunt.registerTask('publish', ['upcoming:patch','build','bump','shell:publish']);
 };
