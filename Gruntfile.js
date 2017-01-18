@@ -81,6 +81,14 @@ module.exports = function (grunt) {
                 src: ['package.json'],
                 target: ['product-info.json']
             }
+        },
+
+        upcoming: {
+            default: {
+                files: {
+                    'package.json': ['version-info.json']
+                }
+            }
         }
 
     });
@@ -88,6 +96,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-browserify");
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks("grunt-contrib-watch");
+
+    grunt.loadNpmTasks('grunt-upcoming');
 
     grunt.registerTask('versionfile', 'A task to write info to a file', function( release ) {
         var srcFile = "package.json",
