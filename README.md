@@ -300,6 +300,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.17
+
+* updated grunt-upcoming to version 0.1.8
+
 #### Version 0.1.16
 
 * now uses grunt-upcoming to determine product version when published
