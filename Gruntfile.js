@@ -78,9 +78,9 @@ module.exports = function (grunt) {
 
         upcoming: {
             default: {
-                files: {
-                    'package.json': ['upcoming-info.json']
-                }
+                files: [
+                    { src: 'package.json', dest: ['upcoming-info.json'] }
+                ]
             }
         }
 
