@@ -32,9 +32,9 @@ A component for building VR mazes
 
 Here are some live examples of the component. The simpler demo is ideal for mobile. 
 
-* https://mitchallen.github.io - best viewed in Chrome
-* https://mitchallen.github.io/stats.html - Chrome demo displaying stats 
-* https://mitchallen.github.io/simple.html - simpler demo for mobile
+* https://mitchallen.bitbucket.io - best viewed in Chrome
+* https://mitchallen.bitbucket.io/stats.html - Chrome demo displaying stats 
+* https://mitchallen.bitbucket.io/simple.html - simpler demo for mobile
 
 Demo notes:
 
@@ -299,6 +299,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.21
+
+* Updated doc to point to new demo locations on bitbucket.
 
 #### Version 0.1.20
 

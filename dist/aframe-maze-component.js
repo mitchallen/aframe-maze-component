@@ -1350,5 +1350,5 @@ module.exports.create = function (spec) {
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(_dereq_,module,exports){
-module.exports={"name":"aframe-maze-component","version":"0.1.18","upcoming":{"release":"patch","version":"0.1.19"}}
+module.exports={"name":"aframe-maze-component","version":"0.1.20","upcoming":{"release":"patch","version":"0.1.21"}}
 },{}]},{},[1]);
