@@ -38,6 +38,11 @@ Here are some live examples of the component. The simpler demo is ideal for mobi
 
 Demo notes:
 
+* Added a lower birds-eye platform to try to reduce issues with users falling through the floor
+ * Start to move forward until you fall onto the lower platform
+ * WAIT a second or two - then proceed onto the ground
+ 
+
 * Works fine in Chrome on a Mac
 * Having issues with player falling through floor on iOS for complex demos (keep it simple on mobile)
 * On Windows 10 machine (Lenovo Yoga 710 laptop) can't seem to walk and turn at the same time
@@ -307,6 +312,13 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.23
+
+* Updated examples to use 0.1.22
+* Updated readme on ways to reduce falling through the floor
+* Updated referenced bitbucket.io examples to use 0.1.22
+* Pending: investigate new test failures
 
 #### Version 0.1.22
 
