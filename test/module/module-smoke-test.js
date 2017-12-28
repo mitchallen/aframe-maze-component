@@ -53,13 +53,19 @@ describe('module smoke test', () => {
             var cType = component.schema[k].type;
             switch(cType) {
                 case 'vec2':
-                    var token = component.schema[k].default.split(',');
-                    if( token.length != 2 ) {
-                        throw new Error( k, "should contain two parameters ('x y')");
+                    var v2 = component.schema[k].default;
+                    if( ! v2 ) {
+                        throw new Error( k, "should contain contain default");
+                    }
+                    if( !v2.x ) {
+                        throw new Error( k, "should contain x parameter");
+                    }
+                    if( !v2.y ) {
+                        throw new Error( k, "should contain y parameter");
                     }
                     component.data[k] = {};
-                    component.data[k].x = parseInt(token[0]);
-                    component.data[k].y = parseInt(token[1]);
+                    component.data[k].x = v2.x;
+                    component.data[k].y = v2.y;
                     break;
                 default:
                     component.data[k] = component.schema[k].default;

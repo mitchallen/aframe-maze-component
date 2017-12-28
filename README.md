@@ -313,6 +313,10 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Version History
 
+#### Version 0.1.24
+
+* Fixed test case that was broken by default vec2 update
+
 #### Version 0.1.23
 
 * Updated examples to use 0.1.22
