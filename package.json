@@ -1,6 +1,6 @@
 {
   "name": "aframe-maze-component",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "aframe maze component",
   "main": "modules/index.js",
   "scripts": {
