@@ -88,6 +88,12 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
               depth="0.25" height="0.5" width="0.5" 
               position="-20 19.8 20"
               color="tomato"></a-box>
+          <!-- lower platform -->
+          <a-box static-body 
+              depth="0.25" height="5" width="5" 
+              position="-20 9.8 20"
+              rotation="-90 0 0"
+              color="tomato"></a-box>
 
           <a-entity id="maze1" 
               maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 1 2 4 E 5;' 
@@ -195,6 +201,8 @@ Example maze with only dimensions defined. Generic walls will be created:
 
 An example of how to remove and add maze attributes though JavaScript. The target element should be an __a-entity__.
 
+Note that in testing we've seen that sometimes the remove call fails and you end up with two overlapping mazes. Use with caution.
+
     <script>
         // how to remove / add a maze attribute through JavaScript
         document.getElementById("maze1").removeAttribute("maze");
@@ -299,6 +307,12 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.22
+
+* Fixed internal issue with default size vec2 format
+* Updated examples with latest external dependencies
+* Added lower jump platform to examples to reduce fall through?
 
 #### Version 0.1.21
 

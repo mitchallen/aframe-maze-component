@@ -73,7 +73,7 @@ module.exports.Component = {
         enabled: { default: true },
         size: {
             type: 'vec2',
-            default: "5, 6"
+            default: { x: 5, y: 6 }
         },
         open: {
             default: ""

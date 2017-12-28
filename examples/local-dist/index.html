@@ -4,16 +4,26 @@
     <meta charset="utf-8">
     <title>demo: aframe-maze-component</title>
     <meta name="description" content="demo: aframe-maze-component">
-    <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
-    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.2.0/dist/aframe-extras.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script> 
+    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script> 
     <!-- 
       <script src="../../dist/aframe-maze-component.min.js"></script> 
     -->
     <script src="../../dist/aframe-maze-component.js"></script>
+    <script>
+        function changeMaze() {
+            // how to remove / add a maze attribute through JavaScript
+            // NOTE: this has some issues, sometimes end up with two overlapping mazes
+            var el = document.querySelector('#maze1');
+            el.removeAttribute("maze");        
+            el.setAttribute(
+                "maze","size: 4 5; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 3;");
+        }
+    </script>
   </head>
-  <body>
-    <a-scene>
+  <body onload="setTimeout(changeMaze,10000);">
+    <a-scene physics="friction: 0.1; restitution: 0.5">
       <a-assets>
         <img id="texture-wall" src="img/arrow-left.png">
         <img id="texture-wall-blue" src="img/arrow-left-blue.png">
@@ -51,6 +61,12 @@
           depth="0.25" height="0.5" width="0.5" 
           position="-20 19.8 20"
           color="tomato"></a-box>
+      <!-- lower platform -->
+      <a-box static-body 
+          depth="0.25" height="5" width="5" 
+          position="-20 9.8 20"
+          rotation="-90 0 0"
+          color="tomato"></a-box>
 
       <a-entity id="maze1" 
           maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 1 2 4 E 5;' 
@@ -75,21 +91,18 @@
           position='25 7.5 -30'></a-entity>
 
       <a-entity id="maze4" 
-          maze='size: 4 5; wall: #wall-two-red;' 
+          maze='size: 4 5; wall: #wall-one-red; cap: #end-cap;' 
           position='5 0.5 30'></a-entity>
 
       <a-entity id="maze5" 
-          maze='size: 4 5; open: S 0;' 
+          maze='size: 4 5;' 
           position='-30 0.5 -5'></a-entity>
 
+      <!--
+        <a-box static-body visible="true" height="200" width="200" depth="1" position="0 -0.5 0" rotation="-90 0 0"></a-box>
+      -->
       <a-grid id="ground" width="200" height="200" static-body color="#444444"></a-grid>
     </a-scene>
-    <script>
-        // how to remove / add a maze attribute through JavaScript
-        document.getElementById("maze1").removeAttribute("maze");
-        document.getElementById("maze1").setAttribute(
-          "maze","size: 4 5; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 3;");
-    </script>
     <!--
       <script src="js/app.js"></script>
     -->

@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <title>demo: aframe-maze-component</title>
     <meta name="description" content="demo: aframe-maze-component">
-    <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
-    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.2.0/dist/aframe-extras.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script> 
+    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script> 
     <script src="https://unpkg.com/aframe-maze-component@0.1.15/dist/aframe-maze-component.min.js"></script>
   </head>
   <body>
@@ -46,6 +46,12 @@
           depth="0.25" height="0.5" width="0.5" 
           position="-20 19.8 20"
           color="tomato"></a-box>
+        <!-- lower platform -->
+      <a-box static-body 
+          depth="0.25" height="5" width="5" 
+          position="-20 9.8 20"
+          rotation="-90 0 0"
+          color="tomato"></a-box>
 
       <a-entity id="maze1" 
           maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 1 2 4 E 5;' 
@@ -71,7 +77,8 @@
 
       <a-entity id="maze4" 
           maze='size: 4 5; wall: #wall-one-red; cap: #end-cap;' 
-          position='5 0.5 30'></a-entity>
+          rotation="45 45 45"
+          position='-15 10 -30'></a-entity>
 
       <a-entity id="maze5" 
           maze='size: 4 5;' 
