@@ -11,18 +11,8 @@
       <script src="../../dist/aframe-maze-component.min.js"></script> 
     -->
     <script src="../../dist/aframe-maze-component.js"></script>
-    <script>
-        function changeMaze() {
-            // how to remove / add a maze attribute through JavaScript
-            // NOTE: this has some issues, sometimes end up with two overlapping mazes
-            var el = document.querySelector('#maze1');
-            el.removeAttribute("maze");        
-            el.setAttribute(
-                "maze","size: 4 5; wall: #wall-one-blue; cap: #end-cap; open: S 0 N 3;");
-        }
-    </script>
   </head>
-  <body onload="setTimeout(changeMaze,10000);">
+  <body>
     <a-scene physics="friction: 0.1; restitution: 0.5">
       <a-assets>
         <img id="texture-wall" src="img/arrow-left.png">
@@ -54,16 +44,12 @@
           camera
           universal-controls
           kinematic-body
-          position="-20 20.8 20">
+          position="-20 10.8 20">
       </a-entity>
       <!-- birds-eye view box to stand on -->
-      <a-box static-body 
-          depth="0.25" height="0.5" width="0.5" 
-          position="-20 19.8 20"
-          color="tomato"></a-box>
       <!-- lower platform -->
       <a-box static-body 
-          depth="0.25" height="5" width="5" 
+          depth="0.25" height="1" width="1" 
           position="-20 9.8 20"
           rotation="-90 0 0"
           color="tomato"></a-box>

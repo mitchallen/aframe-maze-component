@@ -38,14 +38,21 @@ Here are some live examples of the component. The simpler demo is ideal for mobi
 
 Demo notes:
 
-* Added a lower birds-eye platform to try to reduce issues with users falling through the floor
+* Lowered or removed birds-eye platform to try to reduce issues with users falling through the floor
+* For birds-eye demos:
  * Start to move forward until you fall onto the lower platform
  * WAIT a second or two - then proceed onto the ground
  
 
 * Works fine in Chrome on a Mac
-* Having issues with player falling through floor on iOS for complex demos (keep it simple on mobile)
 * On Windows 10 machine (Lenovo Yoga 710 laptop) can't seem to walk and turn at the same time
+
+* Physics engine issues:
+ * Having issues with player falling through floor on iOS for complex demos
+ * Keep it simple on mobile, don't have player drop from high position
+ * Play can push through or into objects if determined
+ * If player pushes angled object, could push them right through the floor (like trying to push up against something while standing in sand - but you end up falling to infinity)
+
 
 * * *
 
@@ -58,11 +65,12 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
       <head>
         <meta charset="utf-8">
         <title>demo: aframe-maze-component</title>
-        <meta name="description" content="demo: aframe-maze-component">
-        <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
-        <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.2.0/dist/aframe-extras.min.js"></script>
-        <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script> 
-        <script src="https://unpkg.com/aframe-maze-component@0.1.15/dist/aframe-maze-component.min.js"></script>
+        <meta name="description" content="demo: aframe-maze-component">        
+        <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+        <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+        <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script> 
+        <script src="https://unpkg.com/aframe-maze-component@0.1.24/dist/aframe-maze-component.min.js"></script>
+
       </head>
       <body>
         <a-scene>
@@ -86,20 +94,16 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
               camera
               universal-controls
               kinematic-body
-              position="-20 20.8 20">
+              position="-20 10.8 20">
           </a-entity>
           <!-- birds-eye view box to stand on -->
-          <a-box static-body 
-              depth="0.25" height="0.5" width="0.5" 
-              position="-20 19.8 20"
-              color="tomato"></a-box>
           <!-- lower platform -->
           <a-box static-body 
-              depth="0.25" height="5" width="5" 
+              depth="0.25" height="1" width="1" 
               position="-20 9.8 20"
               rotation="-90 0 0"
               color="tomato"></a-box>
-
+  
           <a-entity id="maze1" 
               maze='size: 5 6; wall: #wall-one; cap: #end-cap; open: S 0 N 1 2 4 E 5;' 
               position='0 0.5 0'
@@ -135,7 +139,7 @@ Run this example in a browser. Step off the birds-eye view platform and wander a
 
 Include the latest script. Update the @version in the URL as needed:
 
-    <script src="https://unpkg.com/aframe-maze-component@0.1.15/dist/aframe-maze-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-maze-component@0.1.24/dist/aframe-maze-component.min.js"></script>
     
 ### Define Assets
 
@@ -206,7 +210,7 @@ Example maze with only dimensions defined. Generic walls will be created:
 
 An example of how to remove and add maze attributes though JavaScript. The target element should be an __a-entity__.
 
-Note that in testing we've seen that sometimes the remove call fails and you end up with two overlapping mazes. Use with caution.
+__NOTE:__ In testing we've seen that sometimes the remove call fails and you end up with two overlapping mazes. Use with caution.
 
     <script>
         // how to remove / add a maze attribute through JavaScript
@@ -312,6 +316,11 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * * *
 
 ## Version History
+
+#### Version 0.1.25
+
+* Updated doc to refer to 0.1.24
+* Lowered or removed birds-eye platform in local examples (too many physics engine fails - user falls through floor)
 
 #### Version 0.1.24
 

@@ -7,7 +7,7 @@
     <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
     <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script> 
-    <script src="https://unpkg.com/aframe-maze-component@0.1.22/dist/aframe-maze-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-maze-component@0.1.24/dist/aframe-maze-component.min.js"></script>
   </head>
   <body>
     <a-scene>
@@ -39,16 +39,12 @@
           camera
           universal-controls
           kinematic-body
-          position="-20 20.8 20">
+          position="-20 10.8 20">
       </a-entity>
       <!-- birds-eye view box to stand on -->
+     <!-- lower platform -->
       <a-box static-body 
-          depth="0.25" height="0.5" width="0.5" 
-          position="-20 19.8 20"
-          color="tomato"></a-box>
-        <!-- lower platform -->
-      <a-box static-body 
-          depth="0.25" height="5" width="5" 
+          depth="0.25" height="1" width="1" 
           position="-20 9.8 20"
           rotation="-90 0 0"
           color="tomato"></a-box>
