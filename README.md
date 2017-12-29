@@ -36,7 +36,7 @@ Here are some live examples of the component. The simpler demo is ideal for mobi
 * https://mitchallen.bitbucket.io/stats.html - Chrome demo displaying stats 
 * https://mitchallen.bitbucket.io/simple.html - simpler demo for mobile
 
-Demo notes:
+#### Demo notes
 
 * Lowered or removed birds-eye platform to try to reduce issues with users falling through the floor
 * For birds-eye demos:
@@ -47,10 +47,11 @@ Demo notes:
 * Works fine in Chrome on a Mac
 * On Windows 10 machine (Lenovo Yoga 710 laptop) can't seem to walk and turn at the same time
 
-* Physics engine issues:
+#### Physics engine issues
+
  * Having issues with player falling through floor on iOS for complex demos
  * Keep it simple on mobile, don't have player drop from high position
- * Play can push through or into objects if determined
+ * Player can push through or into objects if determined
  * If player pushes angled object, could push them right through the floor (like trying to push up against something while standing in sand - but you end up falling to infinity)
 
 
@@ -210,7 +211,7 @@ Example maze with only dimensions defined. Generic walls will be created:
 
 An example of how to remove and add maze attributes though JavaScript. The target element should be an __a-entity__.
 
-__NOTE:__ In testing we've seen that sometimes the remove call fails and you end up with two overlapping mazes. Use with caution.
+>__NOTE:__ In testing we've seen that sometimes the remove call fails and you end up with two overlapping mazes. Use with caution.
 
     <script>
         // how to remove / add a maze attribute through JavaScript
